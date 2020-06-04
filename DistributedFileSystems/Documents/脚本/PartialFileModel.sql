@@ -1,0 +1,29 @@
+USE [FileCenter]
+GO
+
+/****** Object:  Table [dbo].[PartialFileModels]    Script Date: 2018/11/23 15:14:26 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[PartialFileModels](
+	[Id] [INT] IDENTITY(1,1) NOT NULL,
+	[FileName] [NVARCHAR](200) NULL,
+	[FileExtension] [NVARCHAR](200) NULL,
+	[FilePath] [NVARCHAR](200) NULL,
+	[ProjectName] [NVARCHAR](200) NULL,
+	[CreateDate] [DATETIME] NULL,
+	[FileId] [UNIQUEIDENTIFIER] NULL,
+	[PartialCount] [INT] NOT NULL,
+	[PartialId] [INT] NOT NULL,
+	[IsMerged] [BIT] NOT NULL,
+ CONSTRAINT [PK_dbo.PartialFileModels] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

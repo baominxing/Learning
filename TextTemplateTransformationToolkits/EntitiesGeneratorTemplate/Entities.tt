@@ -1,0 +1,48 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ assembly name="System.Data.dll" #>
+<#@ assembly name="System.Data.DataSetExtensions.dll" #>
+<#@ assembly name="System.Xml.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ include file="DbHelper.ttinclude"  #>
+//------------------------------------------------------------------------------
+// 生成时间 <#=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")#> by fred.bao
+//------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace EntitiesGeneratorTemplate.Models
+{
+<# 
+    var tables = DbHelper.GetDbTables(config.ConnectionString, config.DbDatabase).ToArray();
+
+    for (int i=0;i<tables.Length;i++)
+    {
+        string tableName=tables[i].TableName;        
+#>  
+    public partial class <#= tableName #>
+    {
+<#      foreach(DbColumn column in DbHelper.GetDbColumns(config.ConnectionString, config.DbDatabase, tableName))
+        {
+#>
+        /// <summary>
+        /// <#=column.Remark#>
+        /// </summary>      
+        public <#= column.CSharpType#><# if(column.CommonType.IsValueType && column.IsNullable){#>?<#}#> <#=column.ColumnName#> {get;set;}
+<#
+        }
+#> 
+    }
+<#
+    }
+#>
+}

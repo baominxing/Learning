@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <Token appId="CEB6AE7D57BB52960ABD" appSecret="F11883A29C389F3C03CAA84D2D0F74">
+    <AccessToken>fad8e4309ab6458a81c0cd3da2d9eecc</AccessToken>
+    <RefreshToken>4700fa4a4c304d408a4bb4cc142ffe3d</RefreshToken>
+    <ExpiresIn>1200</ExpiresIn>
+    <Scope>fileservice,verifytoken</Scope>
+    <LastGetTime>2019-01-29 14:18:21:1821</LastGetTime>
+  </Token>
+</Root>
