@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{331CB2B4-1BC1-49E3-BF16-9372C910FF40}</ProjectGuid>
+    <ProjectGuid>{0300BA11-820F-4FBA-8A3C-12A25196294E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IEnumerator_1</RootNamespace>
-    <AssemblyName>IEnumerator_1</AssemblyName>
+    <RootNamespace>Keyboard_Delegate</RootNamespace>
+    <AssemblyName>Keyboard_Delegate</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

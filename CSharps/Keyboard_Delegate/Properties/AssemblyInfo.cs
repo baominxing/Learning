@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("LambdaExpression_1")]
+[assembly: AssemblyTitle("Keyboard_Delegate")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LambdaExpression_1")]
+[assembly: AssemblyProduct("Keyboard_Delegate")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("4de61d05-1eef-4921-9556-0048717b8ce7")]
+[assembly: Guid("0300ba11-820f-4fba-8a3c-12a25196294e")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

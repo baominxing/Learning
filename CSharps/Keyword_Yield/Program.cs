@@ -14,11 +14,21 @@ namespace Keyword_Yield
     {
         static void Main(string[] args)
         {
-            if (File.Exists(@"D:\workspace\projects\青岛四方车轮线\codes\mdc\WIMI.BTL.Web\Attachments\ReportAttachments\20191223\5e9ee75f-0ce7-46e8-b9c4-c44558575b82.xls"))
-            {
 
-            }
+            #region Sample1
+            Sample1.Demonstration();
+            #endregion
+           
+            Console.ReadKey();
+        }
 
+        
+    }
+
+    public class Sample1
+    {
+        internal static void Demonstration()
+        {
             var result = Power(2, 8, string.Empty);
 
             Console.WriteLine(result.Count());
@@ -27,7 +37,6 @@ namespace Keyword_Yield
             {
                 Console.Write("{0} ", i);
             }
-            Console.ReadKey();
         }
 
         public static IEnumerable<int> Power(int number, int exponent, string s)
@@ -43,6 +52,7 @@ namespace Keyword_Yield
                     yield return result;
                 }
             }
+
             yield return 3;
             yield return 4;
             yield return 5;

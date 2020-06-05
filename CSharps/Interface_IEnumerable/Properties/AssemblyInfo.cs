@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("LambdaExpression_2")]
+[assembly: AssemblyTitle("Interface_IEnumerable")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LambdaExpression_2")]
+[assembly: AssemblyProduct("Interface_IEnumerable")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("19b65cbf-3c69-4a84-86e2-f495fb67ba00")]
+[assembly: Guid("0bf06b58-6f46-4cc8-855a-e774ede02502")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
