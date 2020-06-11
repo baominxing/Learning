@@ -1,0 +1,37 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style type="text/css">
+        .div1 {
+            width: 100px;
+            height: 30px;
+            background-color: #FF9911;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            var $div = $(".div1");
+
+            $div.animate({ height: "300px" });
+
+            $(".btn1").click(function () {
+                $div.animate({ bottom: "-200px" });
+            });
+            $(".btn2").click(function () {
+                $div.animate({ bottom: "200px" });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <div class="div1" style="position:relative">
+            <p style="background-color:yellow;width:100px;position:absolute">This is a paragraph.</p>
+        </div>
+        <button class="btn1">Animate</button>
+        <button class="btn2">Reset</button>
+    </div>
+</body>
+</html>
