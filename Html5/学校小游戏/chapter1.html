@@ -1,0 +1,155 @@
+<html>
+<head>
+    <script src="E:\Tools\Scripts\jquery-3.4.1\jquery-3.4.1.min.js"></script>
+    <style type="text/css">
+        .wrap {
+            position: relative;
+            width: 1000px;
+            height: 1000px;
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        .answer {
+            position: relative;
+            top: 10px;
+            width: 1000px;
+            height: 100px;
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        .block {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+        }
+
+        li {
+            width: 20%;
+            display: inline;
+        }
+
+        button {
+            width: 90px;
+            height: 40px;
+            background-color: coral;
+            border-radius: 25px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            var $warp = $(".wrap");
+            var w = 25;
+            var h = 25;
+            var map;//总的格子
+            var redmap;//变红的格子
+            var blocks;//动态生成的格子
+
+            //随机产生1~10连载一起的块
+            function generateBlocks() {
+                var blocks = [];
+                //生成格子的数目（1~10个之间）
+                var blocknumber = Math.floor((Math.random() * 10) + 1);
+                //从0~39动态生成第一个格子
+                var firstblock = { x: Math.floor((Math.random() * 5) + 0), y: Math.floor((Math.random() * 39) + 0) };
+
+                blocks.push(firstblock);
+
+                while (blocks.length < blocknumber) {
+                    //下一个格子生成的依赖格子
+                    var nextblockseed = Math.floor((Math.random() * (blocks.length - 1)) + 0);
+
+                    var seedblock = blocks[nextblockseed];
+
+                    //随机决定是向该格子的上下左右方向生成下一个格子1234代表上下左右
+                    var way = Math.floor((Math.random() * 4) + 1);
+
+                    switch (way) {
+                        case 1:
+                            var nextblock = { x: seedblock.x - 1, y: seedblock.y };
+                            blocks.push(nextblock);
+                            break;
+                        case 2:
+                            var nextblock = { x: seedblock.x + 1, y: seedblock.y };
+                            blocks.push(nextblock);
+                            break;
+                        case 3:
+                            var nextblock = { x: seedblock.x, y: seedblock.y - 1 };
+                            blocks.push(nextblock);
+                            break;
+                        case 4:
+                            var nextblock = { x: seedblock.x, y: seedblock.y + 1 };
+                            blocks.push(nextblock);
+                            break;
+                        default:
+                    }
+                }
+
+                return blocks;
+            }
+
+            function init() {
+
+
+                for (var i = 0; i < 40; i++) {
+
+                    for (var j = 0; j < 40; j++) {
+                        var blockdiv = $("<div class='block block" + i + "" + j + "' style='left:" + i * w + "px;top:" + j * h + "px;'></div>");
+                        $warp.append(blockdiv);
+                    }
+                }
+
+                blocks = generateBlocks();
+
+                for (var i = 0; i < blocks.length; i++) {
+                    var block = blocks[i];
+
+                    var $block = $(".block" + block.x + "" + block.y);
+
+                    if ($block.attr("style").indexOf("background-color") === -1) {
+                        $block.css("background-color", "red");
+
+                    } else {
+                        $block.css("background-color", "");
+                    }
+                }
+            }
+
+            init();
+            //var ref = setInterval(function () {
+            //    block = generateBlock();
+
+            //    if (block.attr("style").indexOf("background-color") === -1) {
+            //        block.css("background-color", "red");
+
+            //    } else {
+            //        block.css("background-color", "");
+            //    }
+
+            //}, 1);
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+
+    </div>
+    <div class="answer">
+        <ul>
+            <li><button value="1">1</button></li>
+            <li><button value="2">2</button></li>
+            <li><button value="3">3</button></li>
+            <li><button value="4">4</button></li>
+            <li><button value="5">5</button></li>
+            <li><button value="6">6</button></li>
+            <li><button value="7">7</button></li>
+            <li><button value="8">8</button></li>
+            <li><button value="9">9</button></li>
+            <li><button value="10">10</button></li>
+        </ul>
+    </div>
+</body>
+</html>
