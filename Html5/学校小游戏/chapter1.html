@@ -1,11 +1,23 @@
 <html>
+
 <head>
     <script src="E:\Tools\Scripts\jquery-3.4.1\jquery-3.4.1.min.js"></script>
+    <script src="E:\Tools\Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
         .wrap {
             position: relative;
             width: 1000px;
             height: 1000px;
+            border-style: solid;
+            border-width: 1px;
+        }
+
+        .info {
+            position: absolute;
+            width: 500px;
+            height: 300px;
+            left: 1100px;
+            top: 10px;
             border-style: solid;
             border-width: 1px;
         }
@@ -23,10 +35,11 @@
             position: absolute;
             width: 25px;
             height: 25px;
+            border-style: dotted;
+            border-width: 1px;
         }
 
         li {
-            width: 20%;
             display: inline;
         }
 
@@ -43,92 +56,189 @@
             var $warp = $(".wrap");
             var w = 25;
             var h = 25;
-            var map;//×ÜµÄ¸ñ×Ó
-            var redmap;//±äºìµÄ¸ñ×Ó
-            var blocks;//¶¯Ì¬Éú³ÉµÄ¸ñ×Ó
-
-            //Ëæ»ú²úÉú1~10Á¬ÔØÒ»ÆğµÄ¿é
+            var storedBlocks = [];
+            //éšæœºäº§ç”Ÿ1~10è¿è½½ä¸€èµ·çš„å—
             function generateBlocks() {
                 var blocks = [];
-                //Éú³É¸ñ×ÓµÄÊıÄ¿£¨1~10¸öÖ®¼ä£©
+                //ç”Ÿæˆæ ¼å­çš„æ•°ç›®ï¼ˆ1~10ä¸ªä¹‹é—´ï¼‰
                 var blocknumber = Math.floor((Math.random() * 10) + 1);
-                //´Ó0~39¶¯Ì¬Éú³ÉµÚÒ»¸ö¸ñ×Ó
-                var firstblock = { x: Math.floor((Math.random() * 5) + 0), y: Math.floor((Math.random() * 39) + 0) };
+
+                $("#blocknumber").val(blocknumber);
+
+                //ä»0~39åŠ¨æ€ç”Ÿæˆç¬¬ä¸€ä¸ªæ ¼å­
+                var firstblock = { x: Math.floor(Math.random() * 29 + 10), y: Math.floor(Math.random() * 3) };
 
                 blocks.push(firstblock);
 
-                while (blocks.length < blocknumber) {
-                    //ÏÂÒ»¸ö¸ñ×ÓÉú³ÉµÄÒÀÀµ¸ñ×Ó
-                    var nextblockseed = Math.floor((Math.random() * (blocks.length - 1)) + 0);
+                var i = 0;
 
-                    var seedblock = blocks[nextblockseed];
+                while (blocks.length < blocknumber & i++ < 100) {
+                    //ä¸‹ä¸€ä¸ªç›¸é‚»æ ¼å­
+                    var nextblockseed = Math.floor(Math.random() * (blocks.length * 100 - 1));
 
-                    //Ëæ»ú¾ö¶¨ÊÇÏò¸Ã¸ñ×ÓµÄÉÏÏÂ×óÓÒ·½ÏòÉú³ÉÏÂÒ»¸ö¸ñ×Ó1234´ú±íÉÏÏÂ×óÓÒ
+                    var seedblock = blocks[Math.floor(nextblockseed / 100)];
+
+                    //éšæœºå†³å®šæ˜¯å‘è¯¥æ ¼å­çš„ä¸Šä¸‹å·¦å³æ–¹å‘ç”Ÿæˆä¸‹ä¸€ä¸ªæ ¼å­1234ä»£è¡¨ä¸Šä¸‹å·¦å³
                     var way = Math.floor((Math.random() * 4) + 1);
+
+                    var nextblock = null;
 
                     switch (way) {
                         case 1:
-                            var nextblock = { x: seedblock.x - 1, y: seedblock.y };
-                            blocks.push(nextblock);
+                            //é¡¶å±‚è¾¹ç•Œä¸ç”Ÿæˆæ ¼å­
+                            if (seedblock.y === 0) {
+                                break;
+                            }
+
+                            nextblock = { x: seedblock.x, y: seedblock.y - 1 };
                             break;
                         case 2:
-                            var nextblock = { x: seedblock.x + 1, y: seedblock.y };
-                            blocks.push(nextblock);
+                            //åº•å±‚è¾¹ç•Œä¸ç”Ÿæˆæ ¼å­
+                            if (seedblock.y === 39) {
+                                break;
+                            }
+
+                            nextblock = { x: seedblock.x, y: seedblock.y + 1 };
                             break;
                         case 3:
-                            var nextblock = { x: seedblock.x, y: seedblock.y - 1 };
-                            blocks.push(nextblock);
+                            //æœ€å·¦è¾¹ç•Œä¸ç”Ÿæˆæ ¼å­
+                            if (seedblock.x === 0) {
+                                break;
+                            }
+
+                            nextblock = { x: seedblock.x - 1, y: seedblock.y };
                             break;
                         case 4:
-                            var nextblock = { x: seedblock.x, y: seedblock.y + 1 };
-                            blocks.push(nextblock);
+                            //æœ€å·¦è¾¹ç•Œä¸ç”Ÿæˆæ ¼å­
+                            if (seedblock.x === 39) {
+                                break;
+                            }
+
+                            nextblock = { x: seedblock.x - 1, y: seedblock.y };
                             break;
                         default:
+                            break;
+                    }
+
+                    if (nextblock != null && _.find(blocks, function (e) { return e.x === nextblock.x && e.y === nextblock.y }) === undefined) {
+                        blocks.push(nextblock);
                     }
                 }
 
                 return blocks;
             }
 
+            function start() {
+                //1.éšæœºç”Ÿæˆæ ¼å­
+                var blocks = generateBlocks();
+
+                //2.ä»¥ä¸€å®šé—´éš”ä¸‹é™æ ¼å­
+                var ref = setInterval(function () {
+
+                    //åˆ¤æ–­æ˜¯å¦è§¦åº•æˆ–è€…åº•éƒ¨å·²æœ‰å †ç§¯å—
+                    if (checkToBottom(blocks) || checkHasBlock(blocks)) {
+                        window.clearTimeout(ref);
+
+                        for (var i = 0; i < blocks.length; i++) {
+                            storedBlocks.push(blocks[i]);
+                        }
+
+                        return;
+                    }
+                    $(".blocks").empty();
+
+                    //æ¸…é™¤ä¸Šä¸€ä¸ªæ ¼å­çš„é¢œè‰²
+                    for (var i = 0; i < blocks.length; i++) {
+                        var block = blocks[i];
+
+                        var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
+
+                        $block.css("background-color", "");
+
+                        //æ‰€æœ‰æ ¼å­ä¸‹é™ä¸€æ ¼
+                        block.y++;
+                    }
+
+                    //æ¸…é™¤ä¸Šä¸€ä¸ªæ ¼å­çš„é¢œè‰²
+                    for (var i = 0; i < blocks.length; i++) {
+                        var block = blocks[i];
+
+                        var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
+
+                        $block.css("background-color", "red");
+
+                        $(".blocks").append("<div>x:" + block.x + ";y:" + block.y + ";</div>")
+                    }
+
+
+                }, 50);
+            }
+
+            function checkToBottom(blocks) {
+                for (var i = 0; i < blocks.length; i++) {
+                    var block = blocks[i];
+
+                    if (block.y >= 39) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function checkHasBlock(blocks) {
+                var bottomestItems = [];
+
+                for (var i = 0; i < blocks.length; i++) {
+                    var block = blocks[i];
+                    var bottomitem = _.find(bottomestItems, function (e) { return e.x === block.x });
+
+                    if (bottomitem !== undefined) {
+                        if (block.y > bottomitem.y) {
+
+                            _.map(bottomestItems, function (e) { return e.x !== block.x });
+                        }
+                    }
+
+                    bottomestItems.push(block);
+                }
+
+                for (var i = 0; i < bottomestItems.length; i++) {
+                    var block = blocks[i];
+
+                    if (_.find(storedBlocks, function (e) { return e.x === block.x && e.y === block.y + 1 }) !== undefined) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             function init() {
 
-
+                //  åŠ è½½æ ¼å­
                 for (var i = 0; i < 40; i++) {
 
                     for (var j = 0; j < 40; j++) {
-                        var blockdiv = $("<div class='block block" + i + "" + j + "' style='left:" + i * w + "px;top:" + j * h + "px;'></div>");
+                        var blockdiv = $("<div class='block block" + pad(i, 2) + "" + pad(j, 2) + "' style='left:" + i * w + "px;top:" + j * h + "px;'></div>");
                         $warp.append(blockdiv);
                     }
                 }
 
-                blocks = generateBlocks();
+                $("#start").on("click", function () {
+                    start();
+                });
+            }
 
-                for (var i = 0; i < blocks.length; i++) {
-                    var block = blocks[i];
-
-                    var $block = $(".block" + block.x + "" + block.y);
-
-                    if ($block.attr("style").indexOf("background-color") === -1) {
-                        $block.css("background-color", "red");
-
-                    } else {
-                        $block.css("background-color", "");
-                    }
-                }
+            /* ç¥å¥‡é€’å½’æ³• */
+            function pad(num, n) {
+                if ((num + "").length >= n) return num;
+                return pad("0" + num, n);
             }
 
             init();
-            //var ref = setInterval(function () {
-            //    block = generateBlock();
 
-            //    if (block.attr("style").indexOf("background-color") === -1) {
-            //        block.css("background-color", "red");
 
-            //    } else {
-            //        block.css("background-color", "");
-            //    }
-
-            //}, 1);
         });
     </script>
 </head>
@@ -137,6 +247,28 @@
     <div class="wrap">
 
     </div>
+
+    <div class="info">
+        <div>
+            <span>
+                <label for="block-nulber">æ ¼å­çš„æ•°é‡:</label>
+            </span>
+            <input type="text" id="blocknumber" disabled>
+            <button id="start">å¼€å§‹</button>
+        </div>
+        <div><span>
+                <label for="block-nulber">x:</label>
+            </span>
+            <input type="text" id="x" disabled>
+        </div>
+        <div><span>
+                <label for="block-nulber">y:</label>
+            </span>
+            <input type="text" id="y" disabled>
+        </div>
+        <div class="blocks"></div>
+    </div>
+
     <div class="answer">
         <ul>
             <li><button value="1">1</button></li>
@@ -152,4 +284,5 @@
         </ul>
     </div>
 </body>
+
 </html>
