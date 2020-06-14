@@ -6,36 +6,26 @@
     <style type="text/css">
         .wrap {
             position: relative;
-            width: 1000px;
-            height: 1000px;
             border-style: solid;
             border-width: 1px;
         }
 
         .info {
             position: absolute;
-            width: 500px;
+            width: 200px;
             height: 300px;
-            left: 1100px;
             top: 10px;
             border-style: solid;
             border-width: 1px;
         }
 
         .answer {
-            position: relative;
-            top: 10px;
-            width: 1000px;
+            position: absolute;
             height: 100px;
-            border-style: solid;
-            border-width: 1px;
         }
 
         .block {
             position: absolute;
-            width: 25px;
-            height: 25px;
-            /* border-style: dotted; */
             border-width: 1px;
         }
 
@@ -51,9 +41,7 @@
         }
 
         hr {
-            top: 500px;
             position: absolute;
-            width: 1000px;
             color: red;
         }
     </style>
@@ -61,14 +49,15 @@
     <script type="text/javascript">
         $(function () {
             var $warp = $(".wrap");
-            var w = 25;
-            var h = 25;
-            var maxY = 20;//可堆叠格子最大高度
+            var mapwidth = 500;//地图宽度
+            var mapheight = 500;//地图长度
+            var w = h = 20;//单元格宽度和长度
+            var maxY = 15;//可堆叠格子最大高度
             var currentBlocks = [];
             var storedBlocks = [];//已堆积格子
-            var speed = 1;//格子下降速度
+            var speed = 1000;//格子下降速度
             var timer;//timer
-
+            var score = 0;
             //随机产生1~10连载一起的块
             function generateBlocks() {
                 var blocks = [];
@@ -78,13 +67,13 @@
                 $("#blocknumber").val(blocknumber);
 
                 //从0~39动态生成第一个格子
-                var firstblock = { x: Math.floor(Math.random() * 29 + 10), y: Math.floor(Math.random() * 3) };
+                var firstblock = { x: Math.floor(Math.random() * (mapwidth / w - 1)), y: Math.floor(Math.random() * 0) };
 
                 blocks.push(firstblock);
 
                 var i = 0;
 
-                while (blocks.length < blocknumber & i++ < 100) {
+                while (blocks.length < blocknumber) {
                     //下一个相邻格子
                     var nextblockseed = Math.floor(Math.random() * (blocks.length * 100 - 1));
 
@@ -106,7 +95,7 @@
                             break;
                         case 2:
                             //底层边界不生成格子
-                            if (seedblock.y === 39) {
+                            if (seedblock.y === (mapheight / w - 1)) {
                                 break;
                             }
 
@@ -122,7 +111,7 @@
                             break;
                         case 4:
                             //最左边界不生成格子
-                            if (seedblock.x === 39) {
+                            if (seedblock.x === mapwidth / w - 1) {
                                 break;
                             }
 
@@ -145,7 +134,13 @@
             function start() {
                 //1.随机生成格子
                 var blocks = generateBlocks();
+                //每次重置speed
+                speed = 1000;
 
+                move(blocks);
+            }
+
+            function move(blocks) {
                 //2.以一定间隔下降格子
                 timer = setInterval(function () {
 
@@ -176,7 +171,7 @@
                         $block.css("border-style", "");
 
                         //所有格子下降一格
-                        block.y = block.y + speed;
+                        block.y = block.y + 1;
                     }
 
                     for (var i = 0; i < blocks.length; i++) {
@@ -191,22 +186,14 @@
                     }
 
 
-                }, 500);
+                }, speed);
             }
-
-            function getColor() {
-                var color = "";
-                for (var i = 0; i < 6; i++) {
-                    color += (Math.random() * 16 | 0).toString(16);
-                }
-                return "#" + color;
-            };
 
             function checkToBottom(blocks) {
                 for (var i = 0; i < blocks.length; i++) {
                     var block = blocks[i];
 
-                    if (block.y >= 39) {
+                    if (block.y >= (mapheight / w - 1)) {
                         console.log("checkToBottom");
 
                         return true;
@@ -249,13 +236,18 @@
             function shot(value) {
                 if ($("#blocknumber").val() === value) {
 
+                    //计算得分
+                    score = score + currentBlocks.length;
+                    $("#score").html("<span>" + score + "分" + "</span>");
                     //清除选择对的块
                     clearSelectedRightBlocks();
                     window.clearTimeout(timer);
                     start();
                 } else {
                     //选择错误
-
+                    window.clearTimeout(timer);
+                    speed = 10;
+                    move(currentBlocks);
 
                 }
 
@@ -276,6 +268,12 @@
 
             function isGameOver() {
                 if (checkToDeadline()) {
+                    window.clearInterval(InterValObj);
+
+                    end();
+
+                    $("#failure").show();
+
                     return true;
                 }
 
@@ -286,7 +284,7 @@
                 for (var i = 0; i < storedBlocks.length; i++) {
                     var block = storedBlocks[i];
 
-                    if (block.y <= 20) {
+                    if (block.y <= maxY) {
                         console.log("checkToDeadline");
                         return true;
                     }
@@ -297,11 +295,18 @@
 
             function drawWholeMap() { //  加载格子
                 $warp.empty();
+                $warp.width(mapwidth);
+                $warp.height(mapheight);
+                $(".info").css("left", mapwidth + 50 + "px");
+                $(".answer").width(mapheight);
+                $(".answer").css("top", mapwidth + 50 + "px");
+                $("hr").width(mapwidth);
+                $("hr").css("top", (h * maxY) + "px");
 
-                for (var i = 0; i < 40; i++) {
+                for (var i = 0; i < (mapwidth / w); i++) {
 
-                    for (var j = 0; j < 40; j++) {
-                        var blockdiv = $("<div class='block block" + pad(i, 2) + "" + pad(j, 2) + "' style='left:" + i * w + "px;top:" + j * h + "px;'></div>");
+                    for (var j = 0; j < (mapheight / w); j++) {
+                        var blockdiv = $("<div class='block block" + pad(i, 2) + "" + pad(j, 2) + "' style='left:" + i * w + "px;top:" + j * h + "px;width:" + w + "px;height:" + h + "px;'></div>");
                         $warp.append(blockdiv);
                     }
                 }
@@ -333,7 +338,6 @@
             function init() {
                 drawWholeMap();
                 storedBlocks.length = 0;
-                speed = 1;//格子下降速度
                 timer = null;//timer
 
             }
@@ -365,7 +369,7 @@
                     //这里可以添加倒计时时间为0后需要执行的事件
                     end();
 
-                    $("#congratulations").show();
+                    $("#success").show();
                 }
             }
 
@@ -414,6 +418,13 @@
             <button id="end">结束</button>
         </div>
 
+        <div>
+            <span>
+                <label for="block-nulber">得分:</label>
+            </span>
+
+            <div id="score" style="font-size:20px;font-weight:800;color:#FF9900;display: inline;"></div>
+        </div>
 
         <div>
             <span>
@@ -425,7 +436,8 @@
 
         <div>
             <span>
-                <label for="block-nulber" id="congratulations" hidden style="font-size: -webkit-xxx-large">恭喜你过关</label>
+                <label for="block-nulber" id="success" hidden style="font-size: -webkit-xxx-large">恭喜你过关</label>
+                <label for="block-nulber" id="failure" hidden style="font-size: -webkit-xxx-large">真遗憾，您没有过关</label>
             </span>
         </div>
 
