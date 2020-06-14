@@ -1,8 +1,8 @@
 <html>
 
 <head>
-    <script src="E:\Tools\Scripts\jquery-3.4.1\jquery-3.4.1.min.js"></script>
-    <script src="E:\Tools\Scripts\underscore\underscore_1.9.1.js"></script>
+    <script src="Scripts\jquery-3.4.1\jquery-3.4.1.js"></script>
+    <script src="Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
         .wrap {
             position: relative;
@@ -35,7 +35,7 @@
             position: absolute;
             width: 25px;
             height: 25px;
-            border-style: dotted;
+            /* border-style: dotted; */
             border-width: 1px;
         }
 
@@ -49,6 +49,13 @@
             background-color: coral;
             border-radius: 25px;
         }
+
+        hr {
+            top: 500px;
+            position: absolute;
+            width: 1000px;
+            color: red;
+        }
     </style>
 
     <script type="text/javascript">
@@ -56,7 +63,12 @@
             var $warp = $(".wrap");
             var w = 25;
             var h = 25;
-            var storedBlocks = [];
+            var maxY = 20;//可堆叠格子最大高度
+            var currentBlocks = [];
+            var storedBlocks = [];//已堆积格子
+            var speed = 1;//格子下降速度
+            var timer;//timer
+
             //随机产生1~10连载一起的块
             function generateBlocks() {
                 var blocks = [];
@@ -125,6 +137,8 @@
                     }
                 }
 
+                currentBlocks = blocks;
+
                 return blocks;
             }
 
@@ -133,14 +147,19 @@
                 var blocks = generateBlocks();
 
                 //2.以一定间隔下降格子
-                var ref = setInterval(function () {
+                timer = setInterval(function () {
 
                     //判断是否触底或者底部已有堆积块
                     if (checkToBottom(blocks) || checkHasBlock(blocks)) {
-                        window.clearTimeout(ref);
+                        window.clearTimeout(timer);
 
                         for (var i = 0; i < blocks.length; i++) {
                             storedBlocks.push(blocks[i]);
+                        }
+
+                        //判读游戏结束
+                        if (!isGameOver()) {
+                            start();
                         }
 
                         return;
@@ -154,31 +173,42 @@
                         var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
                         $block.css("background-color", "");
+                        $block.css("border-style", "");
 
                         //所有格子下降一格
-                        block.y++;
+                        block.y = block.y + speed;
                     }
 
-                    //清除上一个格子的颜色
                     for (var i = 0; i < blocks.length; i++) {
                         var block = blocks[i];
 
                         var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                        $block.css("background-color", "red");
+                        $block.css("background-color", "#8bc34a");
+                        $block.css("border-style", "dotted");
 
                         $(".blocks").append("<div>x:" + block.x + ";y:" + block.y + ";</div>")
                     }
 
 
-                }, 50);
+                }, 500);
             }
+
+            function getColor() {
+                var color = "";
+                for (var i = 0; i < 6; i++) {
+                    color += (Math.random() * 16 | 0).toString(16);
+                }
+                return "#" + color;
+            };
 
             function checkToBottom(blocks) {
                 for (var i = 0; i < blocks.length; i++) {
                     var block = blocks[i];
 
                     if (block.y >= 39) {
+                        console.log("checkToBottom");
+
                         return true;
                     }
                 }
@@ -207,6 +237,8 @@
                     var block = blocks[i];
 
                     if (_.find(storedBlocks, function (e) { return e.x === block.x && e.y === block.y + 1 }) !== undefined) {
+                        console.log("checkHasBlock");
+
                         return true;
                     }
                 }
@@ -214,9 +246,58 @@
                 return false;
             }
 
-            function init() {
+            function shot(value) {
+                if ($("#blocknumber").val() === value) {
 
-                //  加载格子
+                    //清除选择对的块
+                    clearSelectedRightBlocks();
+                    window.clearTimeout(timer);
+                    start();
+                } else {
+                    //选择错误
+
+
+                }
+
+            }
+
+            function clearSelectedRightBlocks() {
+                //清除上一个格子的颜色
+                for (var i = 0; i < currentBlocks.length; i++) {
+                    var block = currentBlocks[i];
+
+                    var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
+
+                    $block.css("background-color", "");
+                    $block.css("border-style", "");
+                }
+
+            }
+
+            function isGameOver() {
+                if (checkToDeadline()) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            function checkToDeadline() {
+                for (var i = 0; i < storedBlocks.length; i++) {
+                    var block = storedBlocks[i];
+
+                    if (block.y <= 20) {
+                        console.log("checkToDeadline");
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            function drawWholeMap() { //  加载格子
+                $warp.empty();
+
                 for (var i = 0; i < 40; i++) {
 
                     for (var j = 0; j < 40; j++) {
@@ -224,10 +305,68 @@
                         $warp.append(blockdiv);
                     }
                 }
+            }
 
-                $("#start").on("click", function () {
-                    start();
-                });
+            function end() {
+                window.clearTimeout(timer);
+
+                //清除上一个格子的颜色
+                for (var i = 0; i < storedBlocks.length; i++) {
+                    var block = storedBlocks[i];
+
+                    var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
+
+                    $block.css("background-color", "");
+                    $block.css("border-style", "");
+                }
+
+                for (var i = 0; i < currentBlocks.length; i++) {
+                    var block = currentBlocks[i];
+
+                    var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
+
+                    $block.css("background-color", "");
+                    $block.css("border-style", "");
+                }
+            }
+
+            function init() {
+                drawWholeMap();
+                storedBlocks.length = 0;
+                speed = 1;//格子下降速度
+                timer = null;//timer
+
+            }
+
+            var SysSecond = 120;
+            var InterValObj;
+            function SetRemainTime() {
+                if (SysSecond > 0) {
+                    SysSecond = SysSecond - 1;
+                    var second = Math.floor(SysSecond % 60);            // 计算秒     
+                    var minite = Math.floor((SysSecond / 60) % 60);      //计算分 
+                    var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时
+                    var day = Math.floor((SysSecond / 3600) / 24);       //计算天 
+
+                    var hourDiv = "<span id='hourSpan'>" + hour + "小时" + "</span>";
+                    var dayDiv = "<span id='daySpan'>" + day + "天" + "</span>";
+
+                    $("#remainTime").html(dayDiv + hourDiv + minite + "分" + second + "秒");
+
+                    if (hour === 0) {//当不足1小时时隐藏小时
+                        $('#hourSpan').css('display', 'none');
+                    }
+                    if (day === 0) {//当不足1天时隐藏天
+                        $('#daySpan').css('display', 'none');
+                    }
+
+                } else {//剩余时间小于或等于0的时候，就停止间隔函数
+                    window.clearInterval(InterValObj);
+                    //这里可以添加倒计时时间为0后需要执行的事件
+                    end();
+
+                    $("#congratulations").show();
+                }
             }
 
             /* 神奇递归法 */
@@ -238,49 +377,72 @@
 
             init();
 
+            $("#start").on("click", function () {
+                init();
 
+                start();
+
+                InterValObj = window.setInterval(SetRemainTime, 1000); //间隔函数，1秒执行
+            });
+
+            $("#end").on("click", function () {
+                end();
+            });
+
+            $(".shot").on("click", function () {
+                shot($(this).val());
+            });
         });
     </script>
 </head>
 
 <body>
     <div class="wrap">
+    </div>
 
+    <div>
+        <hr />
     </div>
 
     <div class="info">
         <div>
             <span>
-                <label for="block-nulber">格子的数量:</label>
+                <label for="block-nulber" hidden>格子的数量:</label>
             </span>
-            <input type="text" id="blocknumber" disabled>
+            <input type="text" id="blocknumber" disabled hidden>
             <button id="start">开始</button>
+            <button id="end">结束</button>
         </div>
-        <div><span>
-                <label for="block-nulber">x:</label>
+
+
+        <div>
+            <span>
+                <label for="block-nulber">游戏剩余时间:</label>
             </span>
-            <input type="text" id="x" disabled>
+
+            <div id="remainTime" style="font-size:20px;font-weight:800;color:#FF9900;display: inline;"></div>
         </div>
-        <div><span>
-                <label for="block-nulber">y:</label>
+
+        <div>
+            <span>
+                <label for="block-nulber" id="congratulations" hidden style="font-size: -webkit-xxx-large">恭喜你过关</label>
             </span>
-            <input type="text" id="y" disabled>
         </div>
-        <div class="blocks"></div>
+
     </div>
 
     <div class="answer">
         <ul>
-            <li><button value="1">1</button></li>
-            <li><button value="2">2</button></li>
-            <li><button value="3">3</button></li>
-            <li><button value="4">4</button></li>
-            <li><button value="5">5</button></li>
-            <li><button value="6">6</button></li>
-            <li><button value="7">7</button></li>
-            <li><button value="8">8</button></li>
-            <li><button value="9">9</button></li>
-            <li><button value="10">10</button></li>
+            <li><button class="shot" id="button_1" value="1">1</button></li>
+            <li><button class="shot" id="button_2" value="2">2</button></li>
+            <li><button class="shot" id="button_3" value="3">3</button></li>
+            <li><button class="shot" id="button_4" value="4">4</button></li>
+            <li><button class="shot" id="button_5" value="5">5</button></li>
+            <li><button class="shot" id="button_6" value="6">6</button></li>
+            <li><button class="shot" id="button_7" value="7">7</button></li>
+            <li><button class="shot" id="button_8" value="8">8</button></li>
+            <li><button class="shot" id="button_9" value="9">9</button></li>
+            <li><button class="shot" id="button_10" value="10">10</button></li>
         </ul>
     </div>
 </body>
