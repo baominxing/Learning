@@ -166,6 +166,7 @@
 
                         return;
                     }
+                    $(".blocks").empty();
 
                     //清除上一个格子的颜色
                     for (var i = 0; i < blocks.length; i++) {
@@ -187,6 +188,8 @@
 
                         $block.css("background-color", "#8bc34a");
                         $block.css("border-style", "dotted");
+
+                        $(".blocks").append("<div>x:" + block.x + ";y:" + block.y + ";</div>")
                     }
 
 

@@ -17,6 +17,29 @@
             background-color: #FF9900;
         }
 
+        .sanjiao {
+            position: absolute;
+            height: 0px;
+            width: 0px;
+            left: 1000px;
+            border-top: 30px solid red;
+            border-right: 30px solid red;
+            border-bottom: 30px solid transparent;
+            border-left: 30px solid transparent;
+        }
+
+        .sanjiao2 {
+            position: absolute;
+            height: 60px;
+            width: 60px;
+            left: 1060px;
+            background-color: teal;
+        }
+
+        .number {
+            position: relative;
+        }
+
         .info {
             position: absolute;
             width: 200px;
@@ -62,78 +85,126 @@
             var maxY = 15;//可堆叠格子最大高度
             var currentBlocks = [];
             var storedBlocks = [];//已堆积格子
+            var definedBlocks = [];//
             var speed;//格子下降速度
             var timer;//timer
             var score = 0;
+
+            function defineBlocks() {
+                var shapes = [];
+
+                //按照上右下左的顺序，决定显示的三角形块,1 - 显示 0 - 不显示
+                var shape1 =
+                    [
+                        { x: 0, y: 0, top: 0, right: 1, bottom: 1, left: 0, isSquare: false },
+                        { x: 1, y: 0, top: 0, right: 0, bottom: 1, left: 1, isSquare: false }
+                    ];
+                var shape2 =
+                    [
+                        { x: 0, y: 0, top: 0, right: 1, bottom: 1, left: 0, isSquare: false },
+                        { x: 1, y: 0, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 2, y: 0, top: 0, right: 0, bottom: 1, left: 1, isSquare: false }
+                    ];
+                var shape3 =
+                    [
+                        { x: 0, y: 0, top: 1, right: 1, bottom: 0, left: 0, isSquare: false },
+                        { x: 1, y: 0, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 1, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 2, top: 0, right: 0, bottom: 1, left: 1, isSquare: false }
+                    ];
+                var shape4 =
+                    [
+                        { x: 0, y: 0, top: 1, right: 1, bottom: 0, left: 0, isSquare: false },
+                        { x: 1, y: 0, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 1, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 2, y: 2, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 1, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true }
+                    ];
+                var shape5 =
+                    [
+                        { x: 0, y: 0, top: 1, right: 1, bottom: 0, left: 0, isSquare: false },
+                        { x: 1, y: 0, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 1, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 2, y: 2, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 1, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 2, y: 2, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 1, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                    ];
+                var shape6 =
+                    [
+                        { x: 0, y: 0, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 0, y: 1, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 1, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 0, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 0, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true }
+                    ];
+                var shape7 =
+                    [
+                        { x: 0, y: 0, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 0, y: 1, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 1, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 0, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 0, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 2, y: 2, top: 1, right: 1, bottom: 0, left: 0, isSquare: false },
+                        { x: 2, y: 3, top: 0, right: 0, bottom: 1, left: 1, isSquare: false }
+                    ];
+                var shape8 =
+                    [
+                        { x: 0, y: 0, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 0, y: 1, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 0, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 0, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 1, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 1, y: 2, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 1, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 2, y: 2, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+                        { x: 2, y: 3, top: 1, right: 1, bottom: 1, left: 1, isSquare: true },
+                        { x: 3, y: 3, top: 0, right: 0, bottom: 1, left: 1, isSquare: false },
+
+                    ];
+                var shape9 =
+                    [{ x: 0, y: 0, top: 0, right: 0, bottom: 0, left: 0 }];
+                var shape10 =
+                    [{ x: 0, y: 0, top: 0, right: 0, bottom: 0, left: 0 }];
+
+                shapes.push(shape1);
+                shapes.push(shape2);
+                shapes.push(shape3);
+                shapes.push(shape4);
+                shapes.push(shape5);
+                shapes.push(shape6);
+                shapes.push(shape7);
+                shapes.push(shape8);
+                shapes.push(shape9);
+
+                return shapes;
+            }
+
             //随机产生1~10连载一起的块
             function generateBlocks() {
                 var blocks = [];
                 //生成格子的数目（1~10个之间）
-                var blocknumber = Math.floor((Math.random() * 10) + 1);
+                var blocknumber = Math.floor((Math.random() * 8) + 0);
 
-                $("#blocknumber").val(blocknumber);
+                $("#blocknumber").val(blocknumber + 1);
 
                 //从0~39动态生成第一个格子
                 var firstblock = { x: Math.floor(Math.random() * (mapwidth / w - 1)), y: Math.floor(Math.random() * 0) };
 
-                blocks.push(firstblock);
+                var predefinedBlocks = defineBlocks();
 
-                var i = 0;
+                currentBlocks = blocks = predefinedBlocks[blocknumber];
 
-                while (blocks.length < blocknumber) {
-                    //下一个相邻格子
-                    var nextblockseed = Math.floor(Math.random() * (blocks.length * 100 - 1));
-
-                    var seedblock = blocks[Math.floor(nextblockseed / 100)];
-
-                    //随机决定是向该格子的上下左右方向生成下一个格子1234代表上下左右
-                    var way = Math.floor((Math.random() * 4) + 1);
-
-                    var nextblock = null;
-
-                    switch (way) {
-                        case 1:
-                            //顶层边界不生成格子
-                            if (seedblock.y === 0) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x, y: seedblock.y - 1 };
-                            break;
-                        case 2:
-                            //底层边界不生成格子
-                            if (seedblock.y === (mapheight / w - 1)) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x, y: seedblock.y + 1 };
-                            break;
-                        case 3:
-                            //最左边界不生成格子
-                            if (seedblock.x === 0) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x - 1, y: seedblock.y };
-                            break;
-                        case 4:
-                            //最左边界不生成格子
-                            if (seedblock.x === mapwidth / w - 1) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x - 1, y: seedblock.y };
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (nextblock != null && _.find(blocks, function (e) { return e.x === nextblock.x && e.y === nextblock.y }) === undefined) {
-                        blocks.push(nextblock);
-                    }
+                for (let index = 0; index < blocks.length; index++) {
+                    blocks[index].x = blocks[index].x + firstblock.x;
+                    blocks[index].y = blocks[index].y + firstblock.y;
                 }
 
-                currentBlocks = blocks;
+                currentBlocks = blocks
 
                 return blocks;
             }
@@ -173,8 +244,7 @@
 
                         var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                        $block.css("background-color", "");
-                        $block.css("border-style", "");
+                        clearBlock($block)
 
                         //所有格子下降一格
                         block.y = block.y + 1;
@@ -185,8 +255,7 @@
 
                         var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                        $block.css("background-color", "#8bc34a");
-                        $block.css("border-style", "dotted");
+                        drawBlock(block, $block)
                     }
 
 
@@ -263,9 +332,7 @@
                     var block = currentBlocks[i];
 
                     var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
-
-                    $block.css("background-color", "");
-                    $block.css("border-style", "");
+                    clearBlock($block)
                 }
 
             }
@@ -328,8 +395,7 @@
 
                     var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                    $block.css("background-color", "");
-                    $block.css("border-style", "");
+                    clearBlock($block)
                 }
 
                 for (var i = 0; i < currentBlocks.length; i++) {
@@ -337,8 +403,7 @@
 
                     var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                    $block.css("background-color", "");
-                    $block.css("border-style", "");
+                    clearBlock($block)
                 }
             }
 
@@ -386,6 +451,40 @@
                 return pad("0" + num, n);
             }
 
+            function drawBlock(item, block) {
+
+                if (item.isSquare) {
+                    block.width(w);
+                    block.height(h);
+                    block.css("background-color", "#8bc34a");
+                    block.css("border-style", "dotted");
+                } else {
+                    block.width(0);
+                    block.height(0);
+                    block.css("border-style", "dotted");
+                    var top = item.top === 0 ? "transparent" : "red";
+                    var right = item.right === 0 ? "transparent" : "red";
+                    var bottom = item.bottom === 0 ? "transparent" : "red";
+                    var left = item.left === 0 ? "transparent" : "red";
+
+                    block.css("border-top", w / 2 + "px solid " + top + "");
+                    block.css("border-right", w / 2 + "px solid " + right + "");
+                    block.css("border-bottom", w / 2 + "px solid " + bottom + "");
+                    block.css("border-left", w / 2 + "px solid " + left + "");
+                }
+            }
+
+            function clearBlock(block) {
+                block.width(w);
+                block.height(h);
+                block.css("background-color", "");
+                block.css("border-style", "");
+                block.css("border-top", "");
+                block.css("border-right", "");
+                block.css("border-bottom", "");
+                block.css("border-left", "");
+            }
+
             init();
 
             $("#start").on("click", function () {
@@ -413,12 +512,16 @@
     <div class="wrap">
     </div>
 
+    <div class="sanjiao"></div>
+    <div class="sanjiao2">
+        <div class="number">1</div>
+    </div>
     <div class="info">
         <div>
             <span>
                 <label for="block-nulber" hidden>格子的数量:</label>
             </span>
-            <input type="text" id="blocknumber" disabled hidden>
+            <input type="text" id="blocknumber" disabled>
             <button id="start">开始</button>
             <button id="end">结束</button>
         </div>
