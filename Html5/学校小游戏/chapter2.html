@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="Scripts\jquery-3.4.1\jquery-3.4.1.js"></script>
     <script src="Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
@@ -222,7 +223,7 @@
                 //2.以一定间隔下降格子
                 timer = setInterval(function () {
 
-                $('#move')[0].play(); //播放声音
+                    $('#move')[0].play(); //播放声音
 
                     //判断是否触底或者底部已有堆积块
                     if (checkToBottom(blocks) || checkHasBlock(blocks)) {
@@ -309,9 +310,9 @@
             }
 
             function shot(value) {
-                $('#shotaudio')[0].play(); //播放声音
                 if ($("#blocknumber").val() === value) {
 
+                    $('#shotaudio')[0].play(); //播放声音
                     //计算得分
                     score = score + currentBlocks.length;
                     $("#score").html("<span>" + score + "分" + "</span>");
@@ -329,6 +330,7 @@
 
                     start();
                 } else {
+                    $('#shotaudio2')[0].play(); //播放声音
                     //选择错误
                     window.clearTimeout(timer);
                     speed = 10;
@@ -581,13 +583,20 @@
 
     <div>
         <audio id="move">
-            <source src="move.wav" type="audio/wav"></audio>
+            <source src="move.wav" type="audio/wav">
+        </audio>
         <audio id="successaudio">
-            <source src="success.wav" type="audio/wav"></audio>
+            <source src="success.wav" type="audio/wav">
+        </audio>
         <audio id="failureaudio">
-            <source src="failure.wav" type="audio/wav"></audio>
+            <source src="failure.wav" type="audio/wav">
+        </audio>
         <audio id="shotaudio">
-            <source src="shot.wav" type="audio/wav"></audio>
+            <source src="shotsuccess.wav" type="audio/wav">
+        </audio>
+        <audio id="shotaudio2">
+            <source src="shotfailure.wav" type="audio/wav">
+        </audio>
     </div>
 </body>
 

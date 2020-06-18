@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <style>
+        :root {
+            --ContainerWidth: 80%;
+            --ContainerHight: 80%;
+        }
+
+        .cover {
+            position: absolute;
+            width: calc(var(--ContainerWidth));
+            height: calc(var(--ContainerHight));
+            left: calc((100% - var(--ContainerWidth)) / 2);
+            top: calc((100% - var(--ContainerHight)) / 2);
+        }
+
+        .left {
+            position: absolute;
+            border: 1px solid coral;
+            width: 50%;
+            height: 100%;
+        }
+
+        .right {
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            border: 1px solid black;
+            width: 50%;
+            height: 100%;
+        }
+
+        .gl_left {
+            position: absolute;
+            /* width: var(--ContainerWidth); */
+            height: var(--ContainerHight);
+            top: calc((100% - var(--ContainerHight)) / 2);
+            right: 0px;
+        }
+
+        .gl_right {
+            position: absolute;
+            /* width: var(--ContainerWidth); */
+            height: var(--ContainerHight);
+            top: calc((100% - var(--ContainerHight)) / 2);
+        }
+
+        .ui_left {
+            position: absolute;
+            top: 21%
+        }
+
+        .ui_right {
+            position: absolute;
+            top: 21%
+        }
+
+        .gj_left {
+            width: 35%;
+            padding: 1%;
+            margin-left: 62%;
+        }
+
+        .gj_right {
+            width: 35%;
+            padding: 1%;
+        }
+
+        .text_left {
+            width: 35%;
+            padding: 1%;
+        }
+
+        span {
+            width: 50px;
+            padding: 1%;
+            vertical-align: top;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+
+<body>
+
+    <div class="cover">
+        <div class="left">
+            <div>
+                <img class="gl_left" src="gl.png">
+            </div>
+
+            <div class="ui_left">
+                <ui style="list-style: none;">
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                    <li>
+                        <div><img class="gj_left" src="gj.png"></div>
+                    </li>
+                </ui>
+            </div>
+        </div>
+
+        <div class="right">
+            <div>
+                <img class="gl_right" src="gl.png">
+            </div>
+
+            <div class="ui_right">
+                <ui style="list-style: none;width: 100%;">
+                    <li style="width: 100%;">
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">
+                        </div>
+                    </li>
+                    <li>
+                        <div style="width: 100%;">
+                            <img class="gj_right" src="gj.png">                
+                        </div>
+                    </li>
+                </ui>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
-<html>
+﻿<html>
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="Scripts\jquery-3.4.1\jquery-3.4.1.js"></script>
     <script src="Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
@@ -240,9 +241,10 @@
             }
 
             function shot(value) {
-                $('#shotaudio')[0].play(); //播放声音
 
                 if ($("#blocknumber").val() === value) {
+
+                    $('#shotaudio')[0].play(); //播放声音
 
                     //计算得分
                     score = score + currentBlocks.length;
@@ -262,6 +264,9 @@
 
                     start();
                 } else {
+
+                    $('#shotaudio2')[0].play(); //播放声音
+
                     //选择错误
                     window.clearTimeout(timer);
                     speed = 10;
@@ -370,10 +375,10 @@
             function SetRemainTime() {
                 if (SysSecond > 0) {
                     SysSecond = SysSecond - 1;
-                    var second = Math.floor(SysSecond % 60);            // 计算秒     
-                    var minite = Math.floor((SysSecond / 60) % 60);      //计算分 
+                    var second = Math.floor(SysSecond % 60);            // 计算秒
+                    var minite = Math.floor((SysSecond / 60) % 60);      //计算分
                     var hour = Math.floor((SysSecond / 3600) % 24);      //计算小时
-                    var day = Math.floor((SysSecond / 3600) / 24);       //计算天 
+                    var day = Math.floor((SysSecond / 3600) / 24);       //计算天
 
                     var hourDiv = "<span id='hourSpan'>" + hour + "小时" + "</span>";
                     var dayDiv = "<span id='daySpan'>" + day + "天" + "</span>";
@@ -488,13 +493,20 @@
 
     <div>
         <audio id="move">
-            <source src="move.wav" type="audio/wav"></audio>
+            <source src="move.wav" type="audio/wav">
+        </audio>
         <audio id="successaudio">
-            <source src="success.wav" type="audio/wav"></audio>
+            <source src="success.wav" type="audio/wav">
+        </audio>
         <audio id="failureaudio">
-            <source src="failure.wav" type="audio/wav"></audio>
+            <source src="failure.wav" type="audio/wav">
+        </audio>
         <audio id="shotaudio">
-            <source src="shot.wav" type="audio/wav"></audio>
+            <source src="shotsuccess.wav" type="audio/wav">
+        </audio>
+        <audio id="shotaudio2">
+            <source src="shotfailure.wav" type="audio/wav">
+        </audio>
     </div>
 </body>
 
