@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="Scripts\jquery-3.4.1\jquery-3.4.1.js"></script>
     <script src="Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
@@ -151,6 +152,8 @@
                 //2.以一定间隔下降格子
                 timer = setInterval(function () {
 
+                    $('#move')[0].play(); //播放声音
+
                     //判断是否触底或者底部已有堆积块
                     if (checkToBottom(blocks) || checkHasBlock(blocks)) {
                         window.clearTimeout(timer);
@@ -238,14 +241,26 @@
             }
 
             function shot(value) {
+                $('#shotaudio')[0].play(); //播放声音
+
                 if ($("#blocknumber").val() === value) {
 
                     //计算得分
                     score = score + currentBlocks.length;
                     $("#score").html("<span>" + score + "分" + "</span>");
+
                     //清除选择对的块
                     clearSelectedRightBlocks();
                     window.clearTimeout(timer);
+
+                    if (score > 50) {
+                        $("#success").show();
+                        $("#next").show();
+
+                        $("#successaudio")[0].play();
+                        return;
+                    }
+
                     start();
                 } else {
                     //选择错误
@@ -277,6 +292,8 @@
                     end();
 
                     $("#failure").show();
+
+                    $("#failureaudio")[0].play();
 
                     return true;
                 }
@@ -377,6 +394,9 @@
                     end();
 
                     $("#success").show();
+                    $("#next").show();
+
+                    $("#successaudio")[0].play();
                 }
             }
 
@@ -445,7 +465,11 @@
                 <label for="block-nulber" id="failure" hidden style="font-size: -webkit-xxx-large">真遗憾，您没有过关</label>
             </span>
         </div>
-
+        <div>
+            <span>
+                <a id="next" href="chapter2.html" hidden style="font-size: -webkit-xxx-large">下一关</a>
+            </span>
+        </div>
     </div>
 
     <div class="answer">
@@ -461,6 +485,17 @@
             <li><button class="shot" id="button_9" value="9">9</button></li>
             <li><button class="shot" id="button_10" value="10">10</button></li>
         </ul>
+    </div>
+
+    <div>
+        <audio id="move">
+            <source src="move.wav" type="audio/wav"></audio>
+        <audio id="successaudio">
+            <source src="success.wav" type="audio/wav"></audio>
+        <audio id="failureaudio">
+            <source src="failure.wav" type="audio/wav"></audio>
+        <audio id="shotaudio">
+            <source src="shot.wav" type="audio/wav"></audio>
     </div>
 </body>
 

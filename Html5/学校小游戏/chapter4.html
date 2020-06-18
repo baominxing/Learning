@@ -1,6 +1,7 @@
 <html>
 
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="Scripts\jquery-3.4.1\jquery-3.4.1.js"></script>
     <script src="Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
@@ -15,6 +16,25 @@
             border-style: solid;
             border-width: 1px;
             background-color: #FF9900;
+        }
+
+        .sanjiao {
+            position: absolute;
+            height: 0px;
+            width: 0px;
+            left: 1000px;
+            border-top: 10px solid red;
+            border-right: 10px solid red;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid transparent;
+        }
+
+        .sanjiao2 {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 1020px;
+            background-color: teal;
         }
 
         .info {
@@ -62,78 +82,89 @@
             var maxY = 15;//可堆叠格子最大高度
             var currentBlocks = [];
             var storedBlocks = [];//已堆积格子
+            var definedBlocks = [];//
             var speed;//格子下降速度
             var timer;//timer
             var score = 0;
+
+            function defineBlocks() {
+                var shapes = [];
+
+                //按照上右下左的顺序，决定显示的三角形块,1 - 显示 0 - 不显示
+                var shape1 =
+                    [
+                        { x: 0, y: 0, w: 3, h: 1, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 0, h: 0 },
+                        { x: 2, y: 0, w: 0, h: 0 },
+                        { x: 1, y: 1, w: 1, h: 1, l: -10, t: 20 },
+                    ];
+
+                var shape2 =
+                    [
+                        { x: 0, y: 0, w: 3, h: 2, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 0, h: 0 },
+                        { x: 2, y: 0, w: 0, h: 0 },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 1, y: 1, w: 0, h: 0 },
+                        { x: 2, y: 1, w: 0, h: 0 },
+                        { x: 1, y: 2, w: 0, h: 0 },
+                        { x: 1, y: 3, w: 1, h: 2, l: -10, t: 20 },
+                    ];
+
+                var shape3 =
+                    [
+                        { x: 0, y: -1, w: 1, h: 1, l: -10, t: -20 },
+                        { x: -1, y: 0, w: 1, h: 1, l: -10, t: -20 },
+                        { x: 0, y: 0, w: 1, h: 1, l: 10, t: 0 },
+                        { x: 1, y: 0, w: 1, h: 1, l: 20, t: 10 },
+                        { x: 0, y: 1, w: 1, h: 1, l: 15, t: 20 },
+                    ];
+
+                var shape4 =
+                    [
+                        { x: 0, y: 0, w: 4, h: 3, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 0, h: 0 },
+                        { x: 2, y: 0, w: 0, h: 0 },
+                        { x: 3, y: 0, w: 0, h: 0 },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 0, y: 2, w: 0, h: 0 },
+                        { x: 3, y: 1, w: 0, h: 0 },
+                        { x: 3, y: 2, w: 0, h: 0 },
+                        { x: 0, y: 2, w: 0, h: 0 },
+                        { x: 1, y: 2, w: 0, h: 0 },
+                        { x: 2, y: 2, w: 0, h: 0 },
+                        { x: 3, y: 2, w: 1, h: 2, l: -10, t: -20 },
+                    ];
+
+                shapes.push(shape1);
+                shapes.push(shape2);
+                shapes.push(shape3);
+                shapes.push(shape4);
+
+                return shapes;
+            }
+
             //随机产生1~10连载一起的块
             function generateBlocks() {
                 var blocks = [];
                 //生成格子的数目（1~10个之间）
-                var blocknumber = Math.floor((Math.random() * 10) + 1);
-
-                $("#blocknumber").val(blocknumber);
+                var blocknumber = Math.floor((Math.random() * 4) + 0);
 
                 //从0~39动态生成第一个格子
-                var firstblock = { x: Math.floor(Math.random() * (mapwidth / w - 1)), y: Math.floor(Math.random() * 0) };
+                var firstblock = { x: Math.floor((Math.random() * 15) + 4), y: Math.floor(Math.random() * 3) + 1 };
 
-                blocks.push(firstblock);
+                var predefinedBlocks = defineBlocks();
 
-                var i = 0;
+                currentBlocks = blocks = predefinedBlocks[blocknumber];
 
-                while (blocks.length < blocknumber) {
-                    //下一个相邻格子
-                    var nextblockseed = Math.floor(Math.random() * (blocks.length * 100 - 1));
+                $("#blocknumber").val(currentBlocks.length);
 
-                    var seedblock = blocks[Math.floor(nextblockseed / 100)];
-
-                    //随机决定是向该格子的上下左右方向生成下一个格子1234代表上下左右
-                    var way = Math.floor((Math.random() * 4) + 1);
-
-                    var nextblock = null;
-
-                    switch (way) {
-                        case 1:
-                            //顶层边界不生成格子
-                            if (seedblock.y === 0) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x, y: seedblock.y - 1 };
-                            break;
-                        case 2:
-                            //底层边界不生成格子
-                            if (seedblock.y === (mapheight / w - 1)) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x, y: seedblock.y + 1 };
-                            break;
-                        case 3:
-                            //最左边界不生成格子
-                            if (seedblock.x === 0) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x - 1, y: seedblock.y };
-                            break;
-                        case 4:
-                            //最左边界不生成格子
-                            if (seedblock.x === mapwidth / w - 1) {
-                                break;
-                            }
-
-                            nextblock = { x: seedblock.x - 1, y: seedblock.y };
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (nextblock != null && _.find(blocks, function (e) { return e.x === nextblock.x && e.y === nextblock.y }) === undefined) {
-                        blocks.push(nextblock);
-                    }
+                for (let index = 0; index < blocks.length; index++) {
+                    blocks[index].x = blocks[index].x + firstblock.x;
+                    blocks[index].y = blocks[index].y + firstblock.y;
                 }
 
-                currentBlocks = blocks;
+                currentBlocks = blocks
 
                 return blocks;
             }
@@ -151,6 +182,8 @@
                 //2.以一定间隔下降格子
                 timer = setInterval(function () {
 
+                $('#move')[0].play(); //播放声音
+
                     //判断是否触底或者底部已有堆积块
                     if (checkToBottom(blocks) || checkHasBlock(blocks)) {
                         window.clearTimeout(timer);
@@ -166,7 +199,6 @@
 
                         return;
                     }
-                    $(".blocks").empty();
 
                     //清除上一个格子的颜色
                     for (var i = 0; i < blocks.length; i++) {
@@ -174,8 +206,7 @@
 
                         var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                        $block.css("background-color", "");
-                        $block.css("border-style", "");
+                        clearBlock($block)
 
                         //所有格子下降一格
                         block.y = block.y + 1;
@@ -186,12 +217,16 @@
 
                         var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                        $block.css("background-color", "#8bc34a");
-                        $block.css("border-style", "dotted");
-
-                        $(".blocks").append("<div>x:" + block.x + ";y:" + block.y + ";</div>")
+                        drawBlock(block, $block)
                     }
 
+                    for (var i = 0; i < blocks.length; i++) {
+                        var block = blocks[i];
+
+                        var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
+
+                        processBlock(block, $block)
+                    }
 
                 }, speed);
             }
@@ -241,14 +276,23 @@
             }
 
             function shot(value) {
+                $('#shotaudio')[0].play(); //播放声音
                 if ($("#blocknumber").val() === value) {
 
                     //计算得分
                     score = score + currentBlocks.length;
                     $("#score").html("<span>" + score + "分" + "</span>");
+
                     //清除选择对的块
                     clearSelectedRightBlocks();
                     window.clearTimeout(timer);
+
+                    if (score > 50) {
+                        $("#success").show();
+                        $("#successaudio")[0].play();
+                        return;
+                    }
+
                     start();
                 } else {
                     //选择错误
@@ -266,9 +310,7 @@
                     var block = currentBlocks[i];
 
                     var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
-
-                    $block.css("background-color", "");
-                    $block.css("border-style", "");
+                    clearBlock($block)
                 }
 
             }
@@ -280,7 +322,7 @@
                     end();
 
                     $("#failure").show();
-
+                    $("#failureaudio")[0].play();
                     return true;
                 }
 
@@ -331,8 +373,7 @@
 
                     var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                    $block.css("background-color", "");
-                    $block.css("border-style", "");
+                    clearBlock($block)
                 }
 
                 for (var i = 0; i < currentBlocks.length; i++) {
@@ -340,8 +381,7 @@
 
                     var $block = $(".block" + pad(block.x, 2) + "" + pad(block.y, 2));
 
-                    $block.css("background-color", "");
-                    $block.css("border-style", "");
+                    clearBlock($block)
                 }
             }
 
@@ -380,6 +420,7 @@
                     end();
 
                     $("#success").show();
+                    $("#successaudio")[0].play();
                 }
             }
 
@@ -387,6 +428,57 @@
             function pad(num, n) {
                 if ((num + "").length >= n) return num;
                 return pad("0" + num, n);
+            }
+
+            function drawBlock(item, block) {
+
+                block.css("background-color", "#8bc34a");
+                block.css("border-style", "dashed");
+
+                if (item.h !== 0) {
+                    block.append('<span style="position: absolute;left: ' + item.l + 'px;font-size: xx-small;">' + item.h + '</span>');
+                }
+
+                if (item.w !== 0) {
+                    block.append('<span style="position: absolute;top: ' + item.t + 'px;font-size: xx-small;">' + item.w + '</span>');
+                }
+            }
+
+            //处理格子虚线问题
+            function processBlock(item, block) {
+
+                var tempblock1 = $(".block" + pad(item.x + 1, 2) + "" + pad(item.y, 2));
+
+                if (tempblock1.attr("style").indexOf("background-color")) {
+                    block.css("border-right-style", "none");
+                }
+
+                var tempblock2 = $(".block" + pad(item.x - 1, 2) + "" + pad(item.y, 2));
+
+                if (tempblock2.attr("style").indexOf("background-color")) {
+                    block.css("border-left-style", "none");
+                }
+
+                var tempblock3 = $(".block" + pad(item.x, 2) + "" + pad(item.y + 1, 2));
+
+                if (tempblock3.attr("style").indexOf("background-color")) {
+                    block.css("border-top-style", "none");
+                }
+
+                var tempblock4 = $(".block" + pad(item.x, 2) + "" + pad(item.y - 1, 2));
+
+                if (tempblock4.attr("style").indexOf("background-color")) {
+                    block.css("border-bottom-style", "none");
+                }
+
+            }
+
+            function clearBlock(block) {
+                block.width(w);
+                block.height(h);
+                block.css("background-color", "");
+                block.css("border-style", "");
+                block.empty();
             }
 
             init();
@@ -421,7 +513,7 @@
             <span>
                 <label for="block-nulber" hidden>格子的数量:</label>
             </span>
-            <input type="text" id="blocknumber" disabled hidden>
+            <input type="text" id="blocknumber" hidden>
             <button id="start">开始</button>
             <button id="end">结束</button>
         </div>
@@ -463,7 +555,20 @@
             <li><button class="shot" id="button_8" value="8">8</button></li>
             <li><button class="shot" id="button_9" value="9">9</button></li>
             <li><button class="shot" id="button_10" value="10">10</button></li>
+            <li><button class="shot" id="button_11" value="11">11</button></li>
+            <li><button class="shot" id="button_12" value="12">12</button></li>
         </ul>
+    </div>
+
+    <div>
+        <audio id="move">
+            <source src="move.wav" type="audio/wav"></audio>
+        <audio id="successaudio">
+            <source src="success.wav" type="audio/wav"></audio>
+        <audio id="failureaudio">
+            <source src="failure.wav" type="audio/wav"></audio>
+        <audio id="shotaudio">
+            <source src="shot.wav" type="audio/wav"></audio>
     </div>
 </body>
 
