@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="Scripts\jquery-3.4.1\jquery-3.4.1.js"></script>
     <script src="Scripts\underscore\underscore_1.9.1.js"></script>
     <style type="text/css">
@@ -127,19 +127,71 @@
                         { x: 2, y: 0, w: 0, h: 0 },
                         { x: 3, y: 0, w: 0, h: 0 },
                         { x: 0, y: 1, w: 0, h: 0 },
-                        { x: 0, y: 2, w: 0, h: 0 },
                         { x: 3, y: 1, w: 0, h: 0 },
-                        { x: 3, y: 2, w: 0, h: 0 },
                         { x: 0, y: 2, w: 0, h: 0 },
                         { x: 1, y: 2, w: 0, h: 0 },
                         { x: 2, y: 2, w: 0, h: 0 },
                         { x: 3, y: 2, w: 1, h: 2, l: -10, t: -20 },
                     ];
 
+                var shape5 =
+                    [
+                        { x: 0, y: 0, w: 3, h: 2, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 0, h: 0 },
+                        { x: 2, y: 0, w: 0, h: 1, l: 30, t: 0 },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 1, y: 1, w: 0, h: 0 },
+                        { x: 2, y: 1, w: 0, h: 0 },
+                        { x: 3, y: 1, w: 0, h: 1, l: 20, t: 0 },
+                    ];
+
+                var shape6 =
+                    [
+                        { x: 0, y: 0, w: 3, h: 2, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 0, h: 0 },
+                        { x: 2, y: 0, w: 1, h: 0, l: 10, t: 10, },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 1, y: 1, w: 0, h: 1, l: 16, t: 10, }
+                    ];
+
+                var shape7 =
+                    [
+                        { x: 0, y: 0, w: 3, h: 2, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 1, h: 0, l: 0, t: 10 },
+                        { x: 2, y: 0, w: 0, h: 0 },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 2, y: 1, w: 0, h: 1, l: 0, t: 0 }
+                    ];
+
+                var shape8 =
+                    [
+                        { x: 1, y: 0, w: 1, h: 1, l: -10, t: -20 },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 1, y: 1, w: 0, h: 0 },
+                        { x: 2, y: 1, w: 3, h: 1, l: 20, t: 10 }
+                    ];
+
+                var shape9 =
+                    [
+                        { x: 0, y: 0, w: 2, h: 3, l: -10, t: -20 },
+                        { x: 1, y: 0, w: 0, h: 1, l: 15, t: 0 },
+                        { x: 0, y: 1, w: 0, h: 0 },
+                        { x: 1, y: 1, w: 0, h: 0 },
+                        { x: 2, y: 1, w: 0, h: 1, l: 10, t: 0 },
+                        { x: 0, y: 2, w: 3, h: 2, l: 60, t: 20 },
+                        { x: 1, y: 2, w: 0, h: 0 },
+                        { x: 2, y: 2, w: 0, h: 0 },
+                    ];
+
                 shapes.push(shape1);
                 shapes.push(shape2);
                 shapes.push(shape3);
                 shapes.push(shape4);
+                shapes.push(shape5);
+                shapes.push(shape6);
+                shapes.push(shape7);
+                shapes.push(shape8);
+                shapes.push(shape9);
 
                 return shapes;
             }
@@ -148,7 +200,7 @@
             function generateBlocks() {
                 var blocks = [];
                 //生成格子的数目（1~10个之间）
-                var blocknumber = Math.floor((Math.random() * 4) + 0);
+                var blocknumber = Math.floor((Math.random() * 9) + 0);
 
                 //从0~39动态生成第一个格子
                 var firstblock = { x: Math.floor((Math.random() * 15) + 4), y: Math.floor(Math.random() * 3) + 1 };
@@ -173,7 +225,7 @@
                 //1.随机生成格子
                 var blocks = generateBlocks();
                 //每次重置speed
-                speed = 500;
+                speed = 1000;
 
                 move(blocks);
             }
@@ -182,7 +234,7 @@
                 //2.以一定间隔下降格子
                 timer = setInterval(function () {
 
-                $('#move')[0].play(); //播放声音
+                    $('#move')[0].play(); //播放声音
 
                     //判断是否触底或者底部已有堆积块
                     if (checkToBottom(blocks) || checkHasBlock(blocks)) {
@@ -276,8 +328,8 @@
             }
 
             function shot(value) {
-                $('#shotaudio')[0].play(); //播放声音
                 if ($("#blocknumber").val() === value) {
+                    $('#shotaudio')[0].play(); //播放声音
 
                     //计算得分
                     score = score + currentBlocks.length;
@@ -295,6 +347,7 @@
 
                     start();
                 } else {
+                    $('#shotaudio2')[0].play(); //播放声音
                     //选择错误
                     window.clearTimeout(timer);
                     speed = 10;
@@ -562,13 +615,20 @@
 
     <div>
         <audio id="move">
-            <source src="move.wav" type="audio/wav"></audio>
+            <source src="move.wav" type="audio/wav">
+        </audio>
         <audio id="successaudio">
-            <source src="success.wav" type="audio/wav"></audio>
+            <source src="success.wav" type="audio/wav">
+        </audio>
         <audio id="failureaudio">
-            <source src="failure.wav" type="audio/wav"></audio>
+            <source src="failure.wav" type="audio/wav">
+        </audio>
         <audio id="shotaudio">
-            <source src="shot.wav" type="audio/wav"></audio>
+            <source src="shotsuccess.wav" type="audio/wav">
+        </audio>
+        <audio id="shotaudio2">
+            <source src="shotfailure.wav" type="audio/wav">
+        </audio>
     </div>
 </body>
 
