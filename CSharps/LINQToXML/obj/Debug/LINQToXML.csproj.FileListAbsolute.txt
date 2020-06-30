@@ -1,7 +1,0 @@
-D:\github\learning\CSharps\LINQToXML\bin\Debug\LINQToXML.exe.config
-D:\github\learning\CSharps\LINQToXML\bin\Debug\LINQToXML.exe
-D:\github\learning\CSharps\LINQToXML\bin\Debug\LINQToXML.pdb
-D:\github\learning\CSharps\LINQToXML\obj\Debug\LINQToXML.csprojAssemblyReference.cache
-D:\github\learning\CSharps\LINQToXML\obj\Debug\LINQToXML.csproj.CoreCompileInputs.cache
-D:\github\learning\CSharps\LINQToXML\obj\Debug\LINQToXML.exe
-D:\github\learning\CSharps\LINQToXML\obj\Debug\LINQToXML.pdb
