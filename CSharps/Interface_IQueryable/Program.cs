@@ -19,12 +19,12 @@ namespace Interface_IQueryable
     {
         private static void Main(string[] args)
         {
-            //Sample1.Demonstration();
+            Sample1.Demonstration();
 
             //实现Select方法
             //Sample2.Demonstration();
 
-            Sample3.Demonstration();
+            //Sample3.Demonstration();
 
             Console.ReadKey();
         }
