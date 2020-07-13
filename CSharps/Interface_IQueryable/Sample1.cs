@@ -24,8 +24,6 @@ namespace Interface_IQueryable
 
                 var dbset = new Query<StateInfos>(new QueryProvider(connection));
 
-                Console.WriteLine(dbset.Expression);
-
                 string Code = "Free";
 
                 var query = dbset.Where(s => s.Code == Code);
@@ -776,7 +774,15 @@ namespace Interface_IQueryable
 
             public static Expression PartialEval(Expression expression, Func<Expression, bool> fnCanBeEvaluated)
             {
-                return new SubtreeEvaluator(new Nominator(fnCanBeEvaluated).Nominate(expression)).Eval(expression);
+                var nominator = new Nominator(fnCanBeEvaluated);
+
+                var candidates = nominator.Nominate(expression);
+
+                var subtreeEvaluator = new SubtreeEvaluator(candidates);
+
+                var newExpression = subtreeEvaluator.Eval(expression);
+
+                return newExpression;
             }
 
             /// <summary>
@@ -841,11 +847,16 @@ namespace Interface_IQueryable
                         return e;
                     }
 
+
                     LambdaExpression lambda = Expression.Lambda(e);
 
                     Delegate fn = lambda.Compile();
 
-                    return Expression.Constant(fn.DynamicInvoke(null), e.Type);
+                    var value = fn.DynamicInvoke(null);
+
+                    //类似于此种访问方式：Func<string> s = () => t.Code;
+
+                    return Expression.Constant(value, e.Type);
                 }
             }
 

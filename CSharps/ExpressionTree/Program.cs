@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ExpressionTree
 {
@@ -15,15 +15,15 @@ namespace ExpressionTree
     {
         static void Main(string[] args)
         {
-            #region Lambda表达式树
-            Sample1.Demonstration();
+            #region 访问一个类型的字段值
+            //Sample1.Demonstration();
             #endregion
 
-            #region 组合表达式树
-            Sample2.Demonstration();
+            #region 访问一个类型的属性值
+            //Sample2.Demonstration();
             #endregion
 
-            #region 调用一个类型的一个方法
+            #region 访问一个类型的方法
             Sample3.Demonstration();
             #endregion
 
@@ -33,68 +33,154 @@ namespace ExpressionTree
 
     class Sample1
     {
+        class T
+        {
+            public string Code;
+        }
+
+        static List<Expression> exps = new List<Expression>();
+
         internal static void Demonstration()
         {
-            Expression<Func<double, double, double>> distanceCalc = (x, y) => Math.Sqrt(x * x + y * y);
+            T t = new T() { Code = "Hello" };
 
-            var d1 = distanceCalc.Compile();
+            Expression type = Expression.Constant(typeof(T));
 
-            Console.WriteLine(d1(3, 4));
+            exps.Add(type);
+
+            Expression instance = Expression.Constant(t);
+
+            exps.Add(instance);
+
+            FieldInfo fieldInfo = t.GetType().GetField("Code");
+
+            MemberExpression memberExpression = Expression.Field(instance, fieldInfo);
+
+            exps.Add(memberExpression);
+
+            LambdaExpression lambdaExpression = Expression.Lambda(memberExpression);
+
+            exps.Add(lambdaExpression);
+
+            Delegate d = lambdaExpression.Compile();
+
+            Console.WriteLine(d.DynamicInvoke());
+
+            //类似于此种访问方式：Func<string> s = () => t.Code;
+
+            PrintExpression(exps);
+
+        }
+
+        static void PrintExpression(List<Expression> exps)
+        {
+            foreach (var item in exps)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 
     class Sample2
     {
+        class T
+        {
+            public string Code;
+        }
+
+        static List<Expression> exps = new List<Expression>();
+
         internal static void Demonstration()
         {
-            var xParameter = Expression.Parameter(typeof(double), "x");
-            var yParameter = Expression.Parameter(typeof(double), "y");
-            var xSquared = Expression.Multiply(xParameter, xParameter);
-            var ySquared = Expression.Multiply(yParameter, yParameter);
-            var sum2 = Expression.Add(xSquared, ySquared);
-            var sqrtMethod = typeof(Math).GetMethod("Sqrt", new[] { typeof(double) });
-            var distance = Expression.Call(sqrtMethod, sum2);
-            var d2 = (Func<double, double, double>)Expression.Lambda(distance, xParameter, yParameter).Compile();
+            T t = new T() { Code = "Hello" };
 
-            Console.WriteLine(d2(3, 4));
+            Expression type = Expression.Constant(typeof(T));
+
+            exps.Add(type);
+
+            ParameterExpression parameterExpression = Expression.Parameter(t.GetType(), "s");
+
+            exps.Add(parameterExpression);
+
+            FieldInfo fieldInfo = t.GetType().GetField("Code");
+
+            MemberExpression memberExpression = Expression.Field(parameterExpression, fieldInfo);
+
+            exps.Add(memberExpression);
+
+            LambdaExpression lambdaExpression = Expression.Lambda(memberExpression, parameterExpression);
+
+            exps.Add(lambdaExpression);
+
+            Delegate d = lambdaExpression.Compile();
+
+            Console.WriteLine(d.DynamicInvoke(t));
+
+            //类似于此种访问方式：Func<T,string> ft = s => s.Code;
+
+            PrintExpression(exps);
+
+        }
+
+        static void PrintExpression(List<Expression> exps)
+        {
+            foreach (var item in exps)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 
     class Sample3
     {
-        internal static void Demonstration()
-        {
-            var code = "1";
-            var list = new List<TestClass>() { new TestClass { Code = "1", Name = "1" }, new TestClass { Code = "2", Name = "2" } };
-            var tc = Expression.Parameter(typeof(TestClass), "tc");
-            var propertyaccess = Expression.PropertyOrField(tc, "Code");
-            var body = Expression.Equal(propertyaccess, Expression.Constant("1"));
-            var lambda = Expression.Lambda(body, tc);
-
-            Console.WriteLine(lambda);
-
-            var query = list.Where((Func<TestClass, bool>)lambda.Compile());
-
-            Console.WriteLine(JsonConvert.SerializeObject(query));
-
-            var input = Expression.Parameter(typeof(string), "Input");
-            var input2 = Expression.Parameter(typeof(string), "Input2");
-            var print = Expression.Call(null, typeof(TestClass).GetMethod("Print"), new Expression[] { input, input2 });
-
-            var d2 = (Func<string, string, string>)Expression.Lambda(print, input, input2).Compile();
-
-            Console.WriteLine(d2("1", "2"));
-        }
-
-        class TestClass
+        class T
         {
             public string Code { get; set; }
 
-            public string Name { get; set; }
-
-            public static string Print(string input, string input2)
+            public void Print(string code)
             {
-                return input + input2;
+                Console.WriteLine(code);
+            }
+        }
+
+        static List<Expression> exps = new List<Expression>();
+
+        internal static void Demonstration()
+        {
+            T t = new T() { Code = "Hello" };
+
+            Expression type = Expression.Constant(typeof(T));
+
+            exps.Add(type);
+
+            ParameterExpression parameterExpression = Expression.Parameter(t.GetType(), "s");
+
+            exps.Add(parameterExpression);
+
+            MethodInfo mi = t.GetType().GetMethod("Print");
+
+            MethodCallExpression methodCallExpression = Expression.Call(parameterExpression, mi,Expression.Constant("Hello"));
+
+            exps.Add(methodCallExpression);
+
+            LambdaExpression lambdaExpression = Expression.Lambda(methodCallExpression, parameterExpression);
+
+            exps.Add(lambdaExpression);
+
+            Delegate d = lambdaExpression.Compile();
+
+            Console.WriteLine(d.DynamicInvoke(t));
+
+            //类似于此种访问方式：Action<T> ft = s => s.Print("Hello");
+
+            PrintExpression(exps);
+        }
+
+        static void PrintExpression(List<Expression> exps)
+        {
+            foreach (var item in exps)
+            {
+                Console.WriteLine(item);
             }
         }
     }
