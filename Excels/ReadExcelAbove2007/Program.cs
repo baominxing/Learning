@@ -10,7 +10,7 @@ namespace ReadExcelAbove2007
     {
         static void Main(string[] args)
         {
-            var path = @"D:\workspace\projects\青岛四方车轮线\codes\mdc\WIMI.BTL.Web\Attachments\share\MT\000732870022.xls";
+            var path = @"BVV000732480032.xlsx";
 
             try
             {
