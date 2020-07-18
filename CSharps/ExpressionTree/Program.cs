@@ -20,11 +20,11 @@ namespace ExpressionTree
             #endregion
 
             #region 访问一个类型的属性值
-            //Sample2.Demonstration();
+            Sample2.Demonstration();
             #endregion
 
             #region 访问一个类型的方法
-            Sample3.Demonstration();
+            //Sample3.Demonstration();
             #endregion
 
             Console.ReadKey();

@@ -29,7 +29,7 @@ namespace Interface_IQueryable
 
                 var code = "Free";
 
-                var query = si.Select(c => new { Code = c.Code }).Where(c => c.Code == code);
+                var query = si.Select(c => new { Code = c.Code, DisplayName = c.DisplayName, Hexcode = c.Hexcode }).Where(c => c.Code == code);
 
                 Console.WriteLine("Query:\n{0}\n", query);
 

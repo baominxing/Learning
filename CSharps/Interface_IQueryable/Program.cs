@@ -19,11 +19,13 @@ namespace Interface_IQueryable
     {
         private static void Main(string[] args)
         {
-            Sample1.Demonstration();
+            //Local variable references
+            //Sample1.Demonstration();
 
-            //实现Select方法
-            //Sample2.Demonstration();
+            //Select
+            Sample2.Demonstration();
 
+            //Improved Column binding
             //Sample3.Demonstration();
 
             Console.ReadKey();
