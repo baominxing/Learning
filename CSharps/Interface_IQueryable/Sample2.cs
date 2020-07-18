@@ -159,11 +159,13 @@ namespace Interface_IQueryable
 
                 this.Visit(expression);
 
+                // Func<ProjectionRow,T<string,string,bool>> f=row=>new {Code =Convert(row.GetValue(0)),, DisplayName = Convert(row.GetValue(1)), Type = Convert(row.GetValue(2) == 0)  };
+                var projector = this.projection != null ? Expression.Lambda(this.projection.Selector, this.row) : null;
+
                 return new TranslateResult
                 {
                     CommandText = this.sb.ToString(),
-
-                    Projector = this.projection != null ? Expression.Lambda(this.projection.Selector, this.row) : null
+                    Projector = projector
                 };
             }
 
@@ -1010,7 +1012,11 @@ namespace Interface_IQueryable
 
                     this.sb.Append(m.Member.Name);
 
-                    return Expression.Convert(Expression.Call(this.row, miGetValue, Expression.Constant(iColumn++)), m.Type);
+                    var methodcall = Expression.Call(this.row, miGetValue, Expression.Constant(iColumn++));
+
+                    var columMember = Expression.Convert(methodcall, m.Type);
+
+                    return columMember;
                 }
                 else
                 {

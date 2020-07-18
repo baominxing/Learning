@@ -23,10 +23,10 @@ namespace Interface_IQueryable
             //Sample1.Demonstration();
 
             //Select
-            Sample2.Demonstration();
+            //Sample2.Demonstration();
 
             //Improved Column binding
-            //Sample3.Demonstration();
+            Sample3.Demonstration();
 
             Console.ReadKey();
         }
