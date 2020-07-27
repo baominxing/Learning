@@ -11,11 +11,11 @@ namespace ReadAccessDatabase
         static void Main(string[] args)
         {
             //读取accedb文件
-            //Sample1.Demonstration();
+            Sample1.Demonstration();
 
 
             //读取mdb文件
-            Sample2.Demonstration();
+            //Sample2.Demonstration();
         }
     }
 
@@ -27,9 +27,11 @@ namespace ReadAccessDatabase
 
             if (sharedDirectoryManager.ImpersonateValidUser("fred.bao", "192.168.1.21", "123qwe"))
             {
-                string executeSql = "select Top 100 * from Tension order by Num DESC";
+                string executeSql = "select Top 1 [最大力] from Tension order by Num DESC";
 
                 DataTable dTable = ReadAllDataWithACE(executeSql, @"\\192.168.1.21\tr\SmartTestReport.mdb");
+
+                var zuidali = dTable.Rows[0][0].ToString();
             }
             else
             {
@@ -72,15 +74,16 @@ namespace ReadAccessDatabase
     {
         public static void Demonstration()
         {
-            string strDSN = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = D:\\Database1.accdb";
-            string strSQL = "select top 1 [最大力] from Tension order by Num DESC";
+            string strDSN = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = SmartTestReport.mdb;Persist Security Info=False;OLE DB Services=-4;";
+            string strSQL = $"select top 1 [最大力] from Tension Where [批号] = '123' and [编号] = '321' order by Num DESC";
             // create Objects of ADOConnection and ADOCommand  
             OleDbConnection myConn = new OleDbConnection(strDSN);
             OleDbDataAdapter myCmd = new OleDbDataAdapter(strSQL, myConn);
             myConn.Open();
-            DataSet dtSet = new DataSet();
-            myCmd.Fill(dtSet);
-            DataTable dTable = dtSet.Tables[0];
+            var dt = new DataTable();
+            myCmd.Fill(dt);
+
+            var zuidali= dt.Rows[0][0]?.ToString();
         }
     }
 
