@@ -1,0 +1,10 @@
+D:\github\learning\Offices\AposeProject\bin\Debug\AposeProject.exe.config
+D:\github\learning\Offices\AposeProject\bin\Debug\AposeProject.exe
+D:\github\learning\Offices\AposeProject\bin\Debug\AposeProject.pdb
+D:\github\learning\Offices\AposeProject\bin\Debug\Aspose.Cells.dll
+D:\github\learning\Offices\AposeProject\bin\Debug\Aspose.Words.dll
+D:\github\learning\Offices\AposeProject\obj\Debug\AposeProject.csprojAssemblyReference.cache
+D:\github\learning\Offices\AposeProject\obj\Debug\AposeProject.csproj.CoreCompileInputs.cache
+D:\github\learning\Offices\AposeProject\obj\Debug\AposeProject.csproj.CopyComplete
+D:\github\learning\Offices\AposeProject\obj\Debug\AposeProject.exe
+D:\github\learning\Offices\AposeProject\obj\Debug\AposeProject.pdb

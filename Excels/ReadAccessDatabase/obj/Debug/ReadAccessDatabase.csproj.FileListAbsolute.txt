@@ -1,7 +1,0 @@
-D:\github\learning\Excels\ReadAccessDatabase\bin\Debug\ReadAccessDatabase.exe.config
-D:\github\learning\Excels\ReadAccessDatabase\bin\Debug\ReadAccessDatabase.exe
-D:\github\learning\Excels\ReadAccessDatabase\bin\Debug\ReadAccessDatabase.pdb
-D:\github\learning\Excels\ReadAccessDatabase\obj\Debug\ReadAccessDatabase.csprojAssemblyReference.cache
-D:\github\learning\Excels\ReadAccessDatabase\obj\Debug\ReadAccessDatabase.csproj.CoreCompileInputs.cache
-D:\github\learning\Excels\ReadAccessDatabase\obj\Debug\ReadAccessDatabase.exe
-D:\github\learning\Excels\ReadAccessDatabase\obj\Debug\ReadAccessDatabase.pdb
