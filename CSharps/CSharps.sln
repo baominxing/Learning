@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface_IQueryable", "Int
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQToXML", "LINQToXML\LINQToXML.csproj", "{519BA89A-8755-4D84-BEA7-4DAE0BB5E4AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportExtensionDllProject", "ImportExtensionDllProject\ImportExtensionDllProject.csproj", "{CDFA78E8-A9D8-4F51-B8E7-9CF42984EE61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{519BA89A-8755-4D84-BEA7-4DAE0BB5E4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{519BA89A-8755-4D84-BEA7-4DAE0BB5E4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{519BA89A-8755-4D84-BEA7-4DAE0BB5E4AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDFA78E8-A9D8-4F51-B8E7-9CF42984EE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDFA78E8-A9D8-4F51-B8E7-9CF42984EE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDFA78E8-A9D8-4F51-B8E7-9CF42984EE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDFA78E8-A9D8-4F51-B8E7-9CF42984EE61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
