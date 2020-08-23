@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities2\Entities.cs" />
     <Compile Include="Entities\Entities.cs">
       <DependentUpon>Entities.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -55,17 +56,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sample1.cs" />
     <Compile Include="Sample2.cs" />
-    <Compile Include="Sample3\ColumnProjector.cs" />
-    <Compile Include="Sample3\DbExpressions.cs" />
-    <Compile Include="Sample3\DbQueryProvider.cs" />
-    <Compile Include="Sample3\Evaluator.cs" />
-    <Compile Include="Sample3\ExpressionVisitor.cs" />
-    <Compile Include="Sample3\ProjectionReader.cs" />
-    <Compile Include="Sample3\QueryBinder.cs" />
-    <Compile Include="Sample3\QueryFormatter.cs" />
-    <Compile Include="Sample3\QueryProvider.cs" />
-    <Compile Include="Sample3\Sample3.cs" />
-    <Compile Include="Sample3\TypeSystem.cs" />
+    <Compile Include="Sample4.cs" />
+    <Compile Include="Sample3.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -81,5 +73,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

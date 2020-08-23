@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 
 namespace Interface_IQueryable
 {
@@ -20,13 +11,16 @@ namespace Interface_IQueryable
         private static void Main(string[] args)
         {
             //Local variable references
-            //Sample1.Demonstration();
+            //Sample1.Sample1.Demonstration();
 
             //Select
-            //Sample2.Demonstration();
+            //Sample2.Sample2.Demonstration();
 
             //Improved Column binding
-            Sample3.Demonstration();
+            //Sample3.Sample3.Demonstration();
+
+            //Nested Queries
+            Sample4.Sample4.Demonstration();
 
             Console.ReadKey();
         }
