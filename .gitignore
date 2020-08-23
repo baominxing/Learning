@@ -223,3 +223,7 @@
 /WindowsFormsApps/.vs/WindowsFormsApps/DesignTimeBuild
 /WindowsFormsApps/packages/Microsoft.Web.WebView2.0.9.515-prerelease
 /WindowsFormsApps/WebBrowserProject/.vs/WindowsFormsApps/v16
+/WindowsFormsApps/ImageCompareProject/bin/Debug
+/WindowsFormsApps/ImageCompareProject/obj/Debug
+/CSharps/ImportExtensionDllProject/bin/Debug
+/CSharps/ImportExtensionDllProject/obj/Debug
