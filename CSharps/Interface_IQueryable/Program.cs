@@ -20,7 +20,10 @@ namespace Interface_IQueryable
             //Sample3.Sample3.Demonstration();
 
             //Nested Queries
-            Sample4.Sample4.Demonstration();
+            //Sample4.Sample4.Demonstration();
+
+            //Join and SelectMany
+            Sample5.Sample5.Demonstration();
 
             Console.ReadKey();
         }
