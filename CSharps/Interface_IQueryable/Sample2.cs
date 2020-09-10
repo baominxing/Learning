@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Interface_IQueryable
+namespace Interface_IQueryable.Sample2
 {
 
 

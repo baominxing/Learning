@@ -10,8 +10,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Interface_IQueryable
+namespace Interface_IQueryable.Sample1
 {
+
     public class Sample1
     {
         private static string connectionString = "Data Source=.;Initial Catalog=BTLMaster;user id=sa;password=P@ssw0rd;MultipleActiveResultSets=True;Connect Timeout=120;persist security info=True";
