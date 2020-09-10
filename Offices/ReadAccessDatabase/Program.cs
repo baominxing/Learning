@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Runtime.InteropServices;
@@ -11,11 +12,10 @@ namespace ReadAccessDatabase
         static void Main(string[] args)
         {
             //读取accedb文件
-            Sample1.Demonstration();
-
+            //Sample1.Demonstration();
 
             //读取mdb文件
-            //Sample2.Demonstration();
+            Sample2.Demonstration();
         }
     }
 
@@ -27,11 +27,51 @@ namespace ReadAccessDatabase
 
             if (sharedDirectoryManager.ImpersonateValidUser("fred.bao", "192.168.1.21", "123qwe"))
             {
-                string executeSql = "select Top 1 [最大力] from Tension order by Num DESC";
+                var Weld_Speed_Setpoint = 0d;
+                var Length_to_Weld = 0d;
+                var Weld_Length = 0d;
+                var Shield_Gas_Flow_SetPoint = 0d;
 
-                DataTable dTable = ReadAllDataWithACE(executeSql, @"\\192.168.1.21\tr\SmartTestReport.mdb");
+                var dt = ReadAllDataWithACE(
+                        $"SELECT TOP 2 [Weld_Speed_Setpoint],[Length_to_Weld],[Weld_Length],[Shield_Gas_Flow_SetPoint] FROM Log_Summary ORDER BY [Date_Of_Entry] DESC", @"\\192.168.1.21\tr\CSR PO4200-2 Weld Log 091517.mdb");
 
-                var zuidali = dTable.Rows[0][0].ToString();
+                var parameters = new List<dynamic>();
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    var row = dt.Rows[i];
+
+                    parameters.Add(new
+                    {
+                        Weld_Speed_Setpoint = Convert.ToDouble(row[0]?.ToString()),
+                        Length_to_Weld = Convert.ToDouble(row[1]?.ToString()),
+                        Weld_Length = Convert.ToDouble(row[2]?.ToString()),
+                        Shield_Gas_Flow_SetPoint = Convert.ToDouble(row[3]?.ToString())
+                    });
+                }
+
+                if (parameters.Count == 1)
+                {
+                    Weld_Speed_Setpoint = (double)parameters[0].Weld_Speed_Setpoint;
+                    Length_to_Weld = (double)parameters[0].Length_to_Wel;
+                    Weld_Length = (double)parameters[0].Weld_Length;
+                    Shield_Gas_Flow_SetPoint = (double)parameters[0].Shield_Gas_Flow_SetPoint;
+                }
+                else if (parameters.Count == 2)
+                {
+                    Weld_Speed_Setpoint = (double)parameters[0].Weld_Speed_Setpoint;
+                    Length_to_Weld = (double)parameters[0].Length_to_Wel;
+                    Weld_Length = (double)parameters[0].Weld_Length;
+
+                    var Weld_Length2 = (double)parameters[1].Weld_Length;
+
+                    if (Weld_Length > Weld_Length2)
+                    {
+                        Weld_Length = Weld_Length - Weld_Length2;
+                    }
+
+                    Shield_Gas_Flow_SetPoint = (double)parameters[0].Shield_Gas_Flow_SetPoint;
+                }
             }
             else
             {
