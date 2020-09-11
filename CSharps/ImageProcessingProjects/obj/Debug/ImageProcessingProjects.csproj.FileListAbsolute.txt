@@ -1,0 +1,7 @@
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\ImageProcessingProjects.exe.config
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\ImageProcessingProjects.exe
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\ImageProcessingProjects.pdb
+D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csprojAssemblyReference.cache
+D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csproj.CoreCompileInputs.cache
+D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.exe
+D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.pdb
