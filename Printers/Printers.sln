@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Printer_Zebra_EZ320", "Printer_Zebra_EZ320\Printer_Zebra_EZ320.csproj", "{33A23039-103A-4417-8C3B-0DC9040902EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZxingProjects", "ZxingProjects\ZxingProjects.csproj", "{0418F55D-4601-4B5D-A57A-C2CD3FBD4FAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{33A23039-103A-4417-8C3B-0DC9040902EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33A23039-103A-4417-8C3B-0DC9040902EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33A23039-103A-4417-8C3B-0DC9040902EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0418F55D-4601-4B5D-A57A-C2CD3FBD4FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0418F55D-4601-4B5D-A57A-C2CD3FBD4FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0418F55D-4601-4B5D-A57A-C2CD3FBD4FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0418F55D-4601-4B5D-A57A-C2CD3FBD4FAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
