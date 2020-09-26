@@ -255,3 +255,14 @@
 /ORMs/packages
 /ORMs/ReadSqlite/App
 /ORMs/ReadSqlite/obj/Debug
+/CSharps/ImageProcessingProjects/bin/Debug
+/CSharps/ImageProcessingProjects/obj/Debug
+/CSharps/packages/Tesseract.3.3.0
+/FlurlProjects/.vs/FlurlProjects/v16
+/FlurlProjects/FlurlHttpDemo/bin/Debug
+/FlurlProjects/FlurlHttpDemo/obj/Debug
+/FlurlProjects/packages
+/Weixin/WeixinProjects/.vs/WeixinProjects/v16
+/Weixin/WeixinProjects/packages
+/Weixin/WeixinProjects/SendApplicationMessage/bin/Debug
+/Weixin/WeixinProjects/SendApplicationMessage/obj/Debug

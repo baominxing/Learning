@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Tesseract;
 
 namespace ImageProcessingProjects
 {
@@ -34,7 +36,7 @@ namespace ImageProcessingProjects
 
         internal static void Demonstration()
         {
-            var imagePath = "tapd_42228403_base64_1599741515_62.png";
+            var imagePath = "20200917101.jpg";
             Bitmap image = new Bitmap(imagePath);
 
             #region 简单暴利
@@ -51,7 +53,7 @@ namespace ImageProcessingProjects
                     r = c.R;
                     g = c.G;
                     b = c.B;
-                    if (r + g + b >= 32)//将图片像素的rgb偏离黑色0超过32的值设置为白色
+                    if (r + g + b >= 256)//将图片像素的rgb偏离黑色0超过32的值设置为白色
                     {
                         image.SetPixel(x, y, white);
                     }
@@ -59,8 +61,25 @@ namespace ImageProcessingProjects
             }
             #endregion
 
+            MemoryStream ms = new MemoryStream();
 
-            image.Save("tapd_42228403_base64_1599741515_62_GrayImg.png");
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            ms.Seek(0, SeekOrigin.Begin); //一定不要忘记将流的初始位置重置
+
+            using (var engine = new TesseractEngine(@"D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\tessdata", "eng", EngineMode.Default))
+            {
+                using (var img = Pix.LoadTiffFromMemory(ms.GetBuffer()))
+                {
+                    using (var page = engine.Process(img))
+                    {
+                        var text = page.GetText();
+                    }
+                }
+            }
+
+
+            image.Save($"{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
         }
 
         #region 不安全方法
