@@ -90,73 +90,69 @@ namespace FlurlHttpDemo
 
             //});
 
-            var url2 = "http://ems.handeaxle.com:8093/api/data/depart/time";
-
-            Task.Run(async () =>
-            {
-                var result = await url2.WithHeader("token", "15002ec8025f4c26b52e9bd47663f221").SetQueryParam("depart_id", "19")
-                //.SetQueryParams(new { consume_depart = 19, consume_sdate = "2020-09-06", consume_edate = "2020-09-10" })
-                .GetAsync().ReceiveJson<JObject>();
-
-                //今日数据
-                var data = result.SelectTokens("data");
-
-                foreach (var item in data.Values())
-                {
-                    Console.WriteLine(item);
-                    var value = item?.Value<double?>("meter_value.value") ?? 0d;
-
-
-                    Console.WriteLine(value);
-                }
-
-            });
-
-            //var url3 = "http://ems.handeaxle.com:8093/api/consume/data/history";
+            //var url2 = "http://ems.handeaxle.com:8093/api/data/depart/time";
 
             //Task.Run(async () =>
             //{
-            //    var list = new List<IEnumerable<dynamic>>();
-
-            //    var result = await url3.WithHeader("token", "15002ec8025f4c26b52e9bd47663f221").SetQueryParams(new
-            //    {
-            //        consume_depart = 19,
-            //        consume_sdate = DateTime.Now.AddDays(-11).ToString("yyyy-MM-dd"),
-            //        consume_edate = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"),
-            //    }
-            //    )
+            //    var result = await url2.WithHeader("token", "15002ec8025f4c26b52e9bd47663f221").SetQueryParam("depart_id", "19")
+            //    //.SetQueryParams(new { consume_depart = 19, consume_sdate = "2020-09-06", consume_edate = "2020-09-10" })
             //    .GetAsync().ReceiveJson<JObject>();
 
-            //    var datalist = result.SelectTokens("data.list");
+            //    //今日数据
+            //    var data = result.SelectTokens("data");
 
-            //    Console.WriteLine(datalist);
-
-            //    foreach (var item in datalist.Values())
+            //    foreach (var item in data.Values())
             //    {
-            //        Console.WriteLine(item);
-
-            //        var gmt_day = item?.Value<DateTime?>("gmt_day")?.ToString("yyyy-MM-dd") ?? "";
-
-            //        if (string.IsNullOrEmpty(gmt_day))
-            //        {
-            //            continue;
-            //        }
-
-            //        var depart_name = item?.Value<string>("depart_name") ?? "";
-            //        var value = item?.Value<string>("value") ?? "";
-            //        var total_cost = item?.Value<string>("total_cost") ?? "";
-            //        var elec = item?.Value<string>("elec") ?? "";
-            //        var elec_peak_amount = item?.Value<string>("elec_peak_amount") ?? "";
-            //        var elec_normal_amount = item?.Value<string>("elec_normal_amount") ?? "";
-            //        var elec_valley_amount = item?.Value<string>("elec_valley_amount") ?? "";
-            //        var compair = item?.Value<string>("compair") ?? "";
-            //        var water = item?.Value<string>("water") ?? "";
-            //        var gas = item?.Value<string>("gas") ?? "";
-            //        var rwater = item?.Value<string>("rwater") ?? "";
-
-            //        list.Add(new List<dynamic>() { gmt_day, depart_name, value, total_cost, elec, elec_peak_amount, elec_normal_amount, elec_valley_amount, compair, water, gas, rwater });
+            //        Console.WriteLine(Math.Round((item.SelectToken("meter_value").Value<double?>("consume") ?? 0d) / 1000, 4));
             //    }
+
             //});
+
+            var url3 = "http://ems.handeaxle.com:8093/api/consume/data/history";
+
+            Task.Run(async () =>
+            {
+                var list = new List<IEnumerable<dynamic>>();
+
+                var result = await url3.WithHeader("token", "15002ec8025f4c26b52e9bd47663f221").SetQueryParams(new
+                {
+                    consume_depart = 19,
+                    consume_sdate = DateTime.Now.AddDays(-11).ToString("yyyy-MM-dd"),
+                    consume_edate = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"),
+                }
+                )
+                .GetAsync().ReceiveJson<JObject>();
+
+                Console.WriteLine(result);
+
+                var datalist = result.SelectTokens("data.list");
+
+                foreach (var item in datalist.Values())
+                {
+                    Console.WriteLine(item);
+
+                    var gmt_day = item?.Value<DateTime?>("gmt_day")?.ToString("yyyy-MM-dd") ?? "";
+
+                    if (string.IsNullOrEmpty(gmt_day))
+                    {
+                        continue;
+                    }
+
+                    var depart_name = item?.Value<string>("depart_name") ?? "";
+                    var value = item?.Value<string>("value") ?? "";
+                    var total_cost = item?.Value<string>("total_cost") ?? "";
+                    var elec = item?.Value<string>("elec") ?? "";
+                    var elec_peak_amount = item?.Value<string>("elec_peak_amount") ?? "";
+                    var elec_normal_amount = item?.Value<string>("elec_normal_amount") ?? "";
+                    var elec_valley_amount = item?.Value<string>("elec_valley_amount") ?? "";
+                    var compair = item?.Value<string>("compair") ?? "";
+                    var water = item?.Value<string>("water") ?? "";
+                    var gas = item?.Value<string>("gas") ?? "";
+                    var rwater = item?.Value<string>("rwater") ?? "";
+
+                    list.Add(new List<dynamic>() { gmt_day, depart_name, value, total_cost, elec, elec_peak_amount, elec_normal_amount, elec_valley_amount, compair, water, gas, rwater });
+                }
+            });
         }
     }
 

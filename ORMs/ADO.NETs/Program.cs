@@ -3,6 +3,7 @@ using DapperExtensions;
 using EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -33,7 +34,11 @@ namespace ADO.NETs
             //Sample3.Demonstration();
 
             //ADO.NET 嵌套事务探索3
-            Sample4.Demonstration();
+            //Sample4.Demonstration();
+
+
+            //基于ADO.NET的工作单元模式
+            Sample5.Demonstration();
 
             Console.ReadKey();
         }
@@ -450,6 +455,141 @@ INSERT INTO [dbo].[StateInfos]
             SqlCommand cmd = new SqlCommand(sql, conn);
             //执行,返回影响行数
             int rows = cmd.ExecuteNonQuery();
+        }
+    }
+
+    public class Sample5
+    {
+        static string connectionString = "Data Source=.;Initial Catalog=BTLMaster;user id=sa;password=P@ssw0rd;MultipleActiveResultSets=True;Connect Timeout=120;persist security info=True;";
+        public static void Demonstration()
+        {
+        }
+
+        class SQLEntity
+        {
+            private string m_SQL = null;
+            public string SQL
+            {
+                get { return m_SQL; }
+            }
+
+            private IDataParameter[] m_Parameters = null;
+            public IDataParameter[] Parameters
+            {
+                get { return m_Parameters; }
+            }
+
+            public SQLEntity(string sql, params IDataParameter[] parameters)
+            {
+                this.m_SQL = sql;
+                this.m_Parameters = parameters;
+            }
+        }
+
+        class SQLUnitOfWork
+        {
+            private IDbConnection m_connection = null;
+            private List<dynamic> m_operations = new List<dynamic>();
+
+            public SQLUnitOfWork(IDbConnection connection)
+            {
+                this.m_connection = connection;
+            }
+
+            public void RegisterAdd(string sql, params IDataParameter[] parameters)
+            {
+                this.m_operations.Add(new SQLEntity(sql, parameters));
+            }
+
+            public void RegisterSave(string sql, params IDataParameter[] parameters)
+            {
+                this.m_operations.Add(new SQLEntity(sql, parameters));
+            }
+
+            public void RegisterRemove(string sql, params IDataParameter[] parameters)
+            {
+                this.m_operations.Add(new SQLEntity(sql, parameters));
+            }
+
+            public void Commit()
+            {
+                using (IDbTransaction trans = this.m_connection.BeginTransaction())
+                {
+                    try
+                    {
+                        using (IDbCommand cmd = this.m_connection.CreateCommand())
+                        {
+                            cmd.Transaction = trans;
+                            cmd.CommandType = CommandType.Text;
+                            this.ExecuteQueryBy(cmd);
+                        }
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                    }
+                }
+            }
+
+            private void ExecuteQueryBy(IDbCommand cmd)
+            {
+                foreach (var entity in this.m_operations)
+                {
+                    cmd.CommandText = entity.SQL;
+                    cmd.Parameters.Clear();
+                    foreach (var parameter in entity.Parameters)
+                    {
+                        cmd.Parameters.Add(parameter);
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+                this.m_operations.Clear();
+            }
+        }
+
+        class SchoolRepository
+        {
+            private SQLUnitOfWork m_uow = null;
+
+            public SchoolRepository(SQLUnitOfWork uow)
+            {
+                this.m_uow = uow;
+            }
+
+            public void Add(School school)
+            {
+                this.m_uow.RegisterAdd("insert school values(@id, @name)", new IDbDataParameter[]{
+            new SqlParameter("@id", school.Id),
+            new SqlParameter("@name", school.Name)
+        });
+            }
+
+            public void Save(School school)
+            {
+                this.m_uow.RegisterSave("update school set name = @name where id = @id", new IDbDataParameter[]{
+            new SqlParameter("@id", school.Id),
+            new SqlParameter("@name", school.Name)
+        });
+            }
+
+            public void Remove(School school)
+            {
+                this.m_uow.RegisterRemove("delete from school where id = @id", new IDbDataParameter[]{
+            new SqlParameter("id", school.Id)
+        });
+            }
+        }
+
+        class StudentRepository
+        {
+            //代码类似，因此省略
+        }
+
+        public class School
+        {
+            public SqlDbType Name { get; internal set; }
+            public SqlDbType Id { get; internal set; }
         }
     }
 }
