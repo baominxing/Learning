@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQToolkits", "IQToolkits\IQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADO.NETs", "ADO.NETs\ADO.NETs.csproj", "{BB55785F-16E1-455B-BAED-3B55F6BCE8E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dappers_20201019", "Dappers_20201019\Dappers_20201019.csproj", "{0FB63F78-45A7-4EBF-B1DA-DADE441E2C6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{BB55785F-16E1-455B-BAED-3B55F6BCE8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB55785F-16E1-455B-BAED-3B55F6BCE8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB55785F-16E1-455B-BAED-3B55F6BCE8E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FB63F78-45A7-4EBF-B1DA-DADE441E2C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB63F78-45A7-4EBF-B1DA-DADE441E2C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FB63F78-45A7-4EBF-B1DA-DADE441E2C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FB63F78-45A7-4EBF-B1DA-DADE441E2C6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

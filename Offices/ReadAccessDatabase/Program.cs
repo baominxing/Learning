@@ -33,7 +33,7 @@ namespace ReadAccessDatabase
                 var Shield_Gas_Flow_SetPoint = 0d;
 
                 var dt = ReadAllDataWithACE(
-                        $"SELECT TOP 2 [Weld_Speed_Setpoint],[Length_to_Weld],[Weld_Length],[Shield_Gas_Flow_SetPoint] FROM Log_Summary ORDER BY [Date_Of_Entry] DESC", @"\\192.168.1.21\tr\CSR PO4200-2 Weld Log 091517.mdb");
+                        $"SELECT * FROM JieGuo", @"\\product.team\拧紧机\202010.mdb");
 
                 var parameters = new List<dynamic>();
 
