@@ -10,7 +10,7 @@ namespace ReadExcelBelow2007
     {
         static void Main(string[] args)
         {
-            var path = "000732870022.xls";
+            var path = @"E:\workspace\projects\桑特液压\documents\需求文件\刀具功能\Powermill\M001\P002\ST5267-A000M-FM1-ASM0_setup_1.xls";
 
             try
             {

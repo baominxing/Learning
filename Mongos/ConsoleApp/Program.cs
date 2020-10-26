@@ -29,20 +29,27 @@ namespace ConsoleApp
         {
             try
             {
-                for (int i = 0; i < 49; i++)
-                {
-                    Task.Run(() =>
-                    {
-                        while (true)
-                        {
-                            var col = GetCollection(MongoMachine.GetCollectionName());
-                            var filter = Builders<MongoMachine>.Filter.Where(s => s.MachineCode == "M001");
-                            var result = col.Find(filter).FirstOrDefault();
+                //for (int i = 0; i < 49; i++)
+                //{
+                //    Task.Run(() =>
+                //    {
+                //        while (true)
+                //        {
 
-                            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}:" + result.MachineCode);
-                        }
-                    });
-                }
+                //        }
+                //    });
+                //}
+                var client = new MongoClient("mongodb://btlsystem:123qwe@127.0.0.1:27017/YJYZ_MC");
+                var db = client.GetDatabase("YJYZ_MC");
+
+                Parallel.For(0, 100000, new ParallelOptions { MaxDegreeOfParallelism = 2 }, async (i) =>
+                {
+                    var col = GetCollection(MongoMachine.GetCollectionName());
+                    var filter = Builders<MongoMachine>.Filter.Where(s => s.MachineCode == "M001");
+                    var result = col.Find(filter).FirstOrDefault();
+
+                    Console.WriteLine($"{i} : {Thread.CurrentThread.ManagedThreadId}:" + result.MachineCode);
+                });
             }
             catch (Exception ex)
             {

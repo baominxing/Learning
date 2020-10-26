@@ -5,3 +5,9 @@ D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProj
 D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csproj.CoreCompileInputs.cache
 D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.exe
 D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.pdb
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\x86\liblept1753.dll
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\x86\libtesseract3052.dll
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\x64\liblept1753.dll
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\x64\libtesseract3052.dll
+D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\Tesseract.dll
+D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csproj.CopyComplete

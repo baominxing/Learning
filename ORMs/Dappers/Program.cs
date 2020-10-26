@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Transactions;
 
 namespace Dappers
 {
@@ -18,7 +19,10 @@ namespace Dappers
         static void Main(string[] args)
         {
             //比较ADO.NET,Dapper,EF,IQToolkit查询100w+数据的效率比较
-            Sample1.Demonstration();
+            //Sample1.Demonstration();
+
+            //UnitOfWork 和 Repository 实现
+            Sample2.Denomination();
 
             Console.ReadKey();
         }
@@ -194,6 +198,214 @@ namespace Dappers
             public T FirstOrDefault(Expression<Func<T, object>> expression, Operator op, object param)
             {
                 return this.GetList(expression, op, param).FirstOrDefault();
+            }
+        }
+    }
+
+    public class Sample2
+    {
+        public static void Denomination()
+        {
+            var unitOfWorkFactory = new UnitOfWorkFactory<SqlConnection>("your connection string");
+            var db = new DbContext(unitOfWorkFactory);
+
+            Products product = null;
+
+            try
+            {
+                product = db.Product.Read(1);
+
+                db.Commit();
+            }
+            catch (SqlException ex)
+            {
+                //log exception
+                db.Rollback();
+            }
+        }
+
+        public interface IUnitOfWorkFactory
+        {
+            UnitOfWork Create();
+        }
+
+        public interface IDbContext
+        {
+            IProductRepository Product { get; }
+
+            void Commit();
+
+            void Rollback();
+        }
+
+        public interface IUnitOfWork
+        {
+            IDbTransaction Transaction { get; }
+
+            void Commit();
+
+            void Rollback();
+        }
+
+
+        public interface IProductRepository
+        {
+            Products Read(int id);
+        }
+
+        public class UnitOfWorkFactory<TConnection> : IUnitOfWorkFactory where TConnection : IDbConnection, new()
+        {
+            private string connectionString;
+
+            public UnitOfWorkFactory(string connectionString)
+            {
+                if (string.IsNullOrWhiteSpace(connectionString))
+                {
+                    throw new ArgumentNullException("connectionString cannot be null");
+                }
+
+                this.connectionString = connectionString;
+            }
+
+            public UnitOfWork Create()
+            {
+                return new UnitOfWork(CreateOpenConnection());
+            }
+
+            private IDbConnection CreateOpenConnection()
+            {
+                var conn = new TConnection();
+                conn.ConnectionString = connectionString;
+
+                try
+                {
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    throw new Exception("An error occured while connecting to the database. See innerException for details.", exception);
+                }
+
+                return conn;
+            }
+        }
+
+        public class DbContext : IDbContext
+        {
+            private IUnitOfWorkFactory unitOfWorkFactory;
+
+            private UnitOfWork unitOfWork;
+
+            private IProductRepository product { get; set; }
+
+            public DbContext(IUnitOfWorkFactory unitOfWorkFactory)
+            {
+                this.unitOfWorkFactory = unitOfWorkFactory;
+            }
+
+            public IProductRepository Product => product ?? (product = new ProductRepository(UnitOfWork));
+
+            protected UnitOfWork UnitOfWork => unitOfWork ?? (unitOfWork = unitOfWorkFactory.Create());
+
+            public void Commit()
+            {
+                try
+                {
+                    UnitOfWork.Commit();
+                }
+                finally
+                {
+                    Reset();
+                }
+            }
+
+            public void Rollback()
+            {
+                try
+                {
+                    UnitOfWork.Rollback();
+                }
+                finally
+                {
+                    Reset();
+                }
+            }
+
+            private void Reset()
+            {
+                unitOfWork = null;
+                product = null;
+            }
+        }
+
+        public class UnitOfWork : IUnitOfWork
+        {
+            private IDbTransaction transaction;
+
+            public UnitOfWork(IDbConnection connection)
+            {
+                transaction = connection.BeginTransaction();
+            }
+
+            public IDbTransaction Transaction => transaction;
+
+            public void Commit()
+            {
+                try
+                {
+                    transaction.Commit();
+                    transaction.Connection?.Close();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    transaction?.Dispose();
+                    transaction.Connection?.Dispose();
+                    transaction = null;
+                }
+            }
+
+            public void Rollback()
+            {
+                try
+                {
+                    transaction.Rollback();
+                    transaction.Connection?.Close();
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    transaction?.Dispose();
+                    transaction.Connection?.Dispose();
+                    transaction = null;
+                }
+            }
+        }
+
+        public class ProductRepository : IProductRepository
+        {
+            protected readonly IDbConnection connection;
+            protected readonly IDbTransaction transaction;
+
+            public ProductRepository(UnitOfWork unitOfWork)
+            {
+                connection = unitOfWork.Transaction.Connection;
+                transaction = unitOfWork.Transaction;
+            }
+
+            public Products Read(int id)
+            {
+                return connection.QuerySingleOrDefault<Products>("select * from dbo.Product where Id = @id", new { id }, transaction);
             }
         }
     }
