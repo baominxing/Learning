@@ -229,30 +229,6 @@ namespace Dappers
             UnitOfWork Create();
         }
 
-        public interface IDbContext
-        {
-            IProductRepository Product { get; }
-
-            void Commit();
-
-            void Rollback();
-        }
-
-        public interface IUnitOfWork
-        {
-            IDbTransaction Transaction { get; }
-
-            void Commit();
-
-            void Rollback();
-        }
-
-
-        public interface IProductRepository
-        {
-            Products Read(int id);
-        }
-
         public class UnitOfWorkFactory<TConnection> : IUnitOfWorkFactory where TConnection : IDbConnection, new()
         {
             private string connectionString;
@@ -291,6 +267,15 @@ namespace Dappers
 
                 return conn;
             }
+        }
+
+        public interface IDbContext
+        {
+            IProductRepository Product { get; }
+
+            void Commit();
+
+            void Rollback();
         }
 
         public class DbContext : IDbContext
@@ -339,6 +324,15 @@ namespace Dappers
                 unitOfWork = null;
                 product = null;
             }
+        }
+
+        public interface IUnitOfWork
+        {
+            IDbTransaction Transaction { get; }
+
+            void Commit();
+
+            void Rollback();
         }
 
         public class UnitOfWork : IUnitOfWork
@@ -390,6 +384,11 @@ namespace Dappers
                     transaction = null;
                 }
             }
+        }
+
+        public interface IProductRepository
+        {
+            Products Read(int id);
         }
 
         public class ProductRepository : IProductRepository

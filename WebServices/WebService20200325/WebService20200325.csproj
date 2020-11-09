@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TraceLogAttribute.cs" />
     <Compile Include="WebService20200325001.asmx.cs">
       <DependentUpon>WebService20200325001.asmx</DependentUpon>
       <SubType>Component</SubType>
