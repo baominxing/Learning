@@ -93,34 +93,31 @@ namespace WebService20200325
             oldChainStream.CopyTo(newChainStream);
             var soapString = (message is SoapServerMessage) ? "SoapRequest" : "SoapResponse";
             WSLogger($"-----{soapString} at {DateTime.Now}");
-            var messageString = WSLogger(oldChainStream);
-
-            var wr = new BinaryWriter(newChainStream, Encoding.UTF8);
-            var rm = messageString.Replace("xmlns:ns", "xmlns").Replace("<ns:", "<").Replace("</ns:", "</");
-
-            wr.Write(rm);
-
+            WSLogger(oldChainStream);
             //重置newChainStream,让saop请求正常往下流转
             newChainStream.Position = 0;
         }
 
-        private string WSLogger(Stream messageStream)
+        private void WSLogger(Stream messageStream)
         {
             if (messageStream != null)
             {
                 messageStream.Position = 0;
                 TextReader reader = new StreamReader(messageStream, Encoding.UTF8);
-                return WSLogger(reader.ReadToEnd());
+                WSLogger(reader.ReadToEnd());
             }
-
-            return string.Empty;
         }
 
-        private string WSLogger(string message)
+        private void WSLogger(string message)
         {
-            Console.WriteLine($"{WebServiceLogPrefix} {message}");
+            var dy = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
 
-            return message;
+            if (!Directory.Exists(dy))
+            {
+                Directory.CreateDirectory(dy);
+            }
+
+            File.AppendAllText(Path.Combine(dy, $"{DateTime.Now.ToString("yyyyMMdd")}.txt"), $"{WebServiceLogPrefix} {message}" + Environment.NewLine);
         }
     }
 
