@@ -1,8 +1,10 @@
-﻿using Dapper;
+﻿using Autofac;
+using Dapper;
 using DapperExtensions;
 using Entities;
 using EntityFramework;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -35,11 +37,27 @@ namespace Dappers
 
         public static void Demonstration()
         {
-            var connectionFactory = new SqlConnectionFactory(connectionString);
+            var builder = new ContainerBuilder();
 
-            var stateInfoRepository = new DapperRepository<CutterParameters>(connectionFactory);
+            //注册数据库连接工厂
+            builder.RegisterType<SqlConnectionFactory>()
+                .As<IDbConnectionFactory>()
+                .WithParameter(new TypedParameter(typeof(string), connectionString))
+                .SingleInstance();
+            //注册dapper repository
+            builder.RegisterGeneric(typeof(DapperRepository<>)).As(typeof(IDapperRepository<>)).InstancePerDependency();
 
-            var list = stateInfoRepository.GetList();
+            //获取state repository
+            var container = builder.Build();
+            var stateRepository = container.Resolve<IDapperRepository<TraceFlowSettings>>();
+
+            //获取state表值
+
+            Console.WriteLine(stateRepository.GetList().Count());
+
+            Console.WriteLine(stateRepository.GetList(s => s.Id, Operator.Eq, 1));
+
+            Console.WriteLine(stateRepository.GetList(s => s.Id, Operator.Eq, 1));
         }
 
         public interface IDbConnectionFactory
@@ -61,14 +79,13 @@ namespace Dappers
                 var conn = new SqlConnection(_connectionString);
 
                 conn.Open();
+
                 return conn;
             }
         }
 
         public interface IDapperRepository<T> where T : class, IEntity
         {
-            IEnumerable<T> Query(string executeSql, object parameters);
-
             IEnumerable<T> GetList();
 
             IEnumerable<T> GetList(Expression<Func<T, object>> expression, Operator op, object param);
@@ -93,36 +110,6 @@ namespace Dappers
                 this.dbConnectionFactory = dbConnectionFactory;
             }
 
-            public virtual IEnumerable<T> Query(string executeSql, object parameters)
-            {
-                using (var dbConnection = dbConnectionFactory.CreateConnection())
-                {
-                    if (typeof(T).IsAssignableFrom(typeof(ISoftDelete)))
-                    {
-                        Expression type = Expression.Constant(typeof(T));
-
-                        Expression instance = Expression.Constant(dbConnection);
-
-                        MethodInfo mi = typeof(T).GetType().GetMethod("Query");
-
-                        MethodCallExpression methodCallExpression = Expression.Call(instance, mi, Expression.Constant(executeSql), Expression.Constant(parameters));
-
-                        LambdaExpression lambdaExpression = Expression.Lambda(methodCallExpression);
-
-                        Delegate d = lambdaExpression.Compile();
-
-                        Console.WriteLine(d.DynamicInvoke());
-
-                        return dbConnection.Query<T>(executeSql, parameters);//.Where(s => !s.IsDeleted);
-                    }
-                    else
-                    {
-                        return dbConnection.Query<T>(executeSql, parameters);
-                    }
-                }
-            }
-
-
             public virtual IEnumerable<T> GetList()
             {
                 IEnumerable<T> result = null;
@@ -131,9 +118,13 @@ namespace Dappers
                 {
                     if (typeof(ISoftDelete).IsAssignableFrom(typeof(T)))
                     {
-                        var properties = typeof(T).GetProperties();
-                        var tablename = typeof(T).Name;
-                        var executeSql = $"select {string.Join(",", properties.Select(s => s.Name))} from {tablename} where isdeleted = 0";
+                        var executeSql = MemoryCacheHelper.GetOrAddCacheItem<string>(typeof(T).Name, () =>
+                        {
+                            var properties = typeof(T).GetProperties();
+                            var tablename = typeof(T).Name;
+
+                            return $"select {string.Join(",", properties.Select(s => s.Name))} from {tablename} where isdeleted = 0";
+                        });
 
                         result = dbConnection.Query<T>(executeSql);
                     }
@@ -148,9 +139,35 @@ namespace Dappers
 
             public virtual IEnumerable<T> GetList(Expression<Func<T, object>> expression, Operator op, object param)
             {
+                IEnumerable<T> result = null;
+
                 using (var dbConnection = dbConnectionFactory.CreateConnection())
                 {
-                    return dbConnection.GetList<T>(Predicates.Field<T>(expression, op, param));
+                    if (typeof(ISoftDelete).IsAssignableFrom(typeof(T)))
+                    {
+                        Func<T, bool> d = MemoryCacheHelper.GetOrAddCacheItem($"Func_{typeof(T).Name}", () =>
+                        {
+                            ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "s");
+
+                            PropertyInfo propertyInfo = typeof(T).GetProperty("IsDeleted");
+
+                            MemberExpression memberExpression = Expression.Property(parameterExpression, propertyInfo);
+
+                            BinaryExpression binaryExpression = Expression.MakeBinary(ExpressionType.Equal, memberExpression, Expression.Constant(true));
+
+                            LambdaExpression lambdaExpression = Expression.Lambda(binaryExpression, parameterExpression);
+
+                            return (Func<T, bool>)lambdaExpression.Compile();
+                        });
+
+                        result = dbConnection.GetList<T>(Predicates.Field(expression, op, param)).Where(d);
+                    }
+                    else
+                    {
+                        result = dbConnection.GetList<T>(Predicates.Field(expression, op, param));
+                    }
+
+                    return result;
                 }
             }
 
@@ -196,7 +213,7 @@ namespace Dappers
         /// <summary>
         /// 内存缓存帮助类，支持绝对过期时间、滑动过期时间、文件依赖三种缓存方式。
         /// </summary>
-        class MemoryCacheHelper
+        public class MemoryCacheHelper
         {
             private static readonly object _locker1 = new object(), _locker2 = new object();
 
@@ -240,8 +257,8 @@ namespace Dappers
             public static T GetOrAddCacheItem<T>(string key, Func<T> cachePopulate, TimeSpan? slidingExpiration = null, DateTime? absoluteExpiration = null)
             {
                 if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("Invalid cache key");
-                if (cachePopulate == null) throw new ArgumentNullException("cachePopulate");
-                if (slidingExpiration == null && absoluteExpiration == null) throw new ArgumentException("Either a sliding expiration or absolute must be provided");
+                //if (cachePopulate == null) throw new ArgumentNullException("cachePopulate");
+                //if (slidingExpiration == null && absoluteExpiration == null) throw new ArgumentException("Either a sliding expiration or absolute must be provided");
 
                 if (MemoryCache.Default[key] == null)
                 {

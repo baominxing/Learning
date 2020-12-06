@@ -1,7 +1,7 @@
 ﻿
 
 //------------------------------------------------------------------------------
-// 生成时间 2020-09-14 17:50:12 by fred.bao
+// 生成时间 2020-12-05 14:20:16 by fred.bao
 //------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
@@ -610,14 +610,6 @@ namespace EntityFramework
         /// 
         /// </summary>      
         public Guid DmpId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public Guid? PreviousLinkId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public bool IsLineOutputOffline {get;set;}
  
     }
         #endregion
@@ -1889,10 +1881,6 @@ namespace EntityFramework
         /// 
         /// </summary>      
         public Guid DmpGroupId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public int Seq {get;set;}
  
     }
         #endregion
@@ -2158,112 +2146,6 @@ namespace EntityFramework
         /// 
         /// </summary>      
         public string Discriminator {get;set;}
- 
-    }
-        #endregion
-  
-    #region  FeedbackCalendarDetails
-    public partial class FeedbackCalendarDetails : SoftDeleteEntity
-         {
-        /// <summary>
-        /// 
-        /// </summary>      
-        public int Id {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public int MachineId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public int FeedbackCalendarId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public bool IsDeleted {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public long? DeleterUserId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public DateTime? DeletionTime {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public DateTime? LastModificationTime {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public long? LastModifierUserId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public DateTime CreationTime {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public long? CreatorUserId {get;set;}
- 
-    }
-        #endregion
-  
-    #region  FeedbackCalendars
-    public partial class FeedbackCalendars : SoftDeleteEntity
-         {
-        /// <summary>
-        /// 
-        /// </summary>      
-        public int Id {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public string Code {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public string Name {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public string Cron {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public string StateCode {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public int Duration {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public bool IsDeleted {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public long? DeleterUserId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public DateTime? DeletionTime {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public DateTime? LastModificationTime {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public long? LastModifierUserId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public DateTime CreationTime {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public long? CreatorUserId {get;set;}
  
     }
         #endregion
@@ -5521,10 +5403,6 @@ namespace EntityFramework
         /// 
         /// </summary>      
         public Guid DmpId {get;set;}
-        /// <summary>
-        /// 
-        /// </summary>      
-        public Guid? PreviousLinkId {get;set;}
  
     }
         #endregion
