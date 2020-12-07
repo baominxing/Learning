@@ -270,3 +270,5 @@
 /ORMs/Dappers_20201019/obj/Debug
 /WebServices/packages/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1
 *.zip
+/CSharps/CacheHelper/bin/Debug
+/CSharps/CacheHelper/obj/Debug

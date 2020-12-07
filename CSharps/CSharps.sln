@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportExtensionDllProject",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageProcessingProjects", "ImageProcessingProjects\ImageProcessingProjects.csproj", "{A970D4E1-9554-4EFA-9104-A15A0BD9DFCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheHelper", "CacheHelper\CacheHelper.csproj", "{C3B7D98E-775F-4491-83B1-0F9F5DCF9079}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{A970D4E1-9554-4EFA-9104-A15A0BD9DFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A970D4E1-9554-4EFA-9104-A15A0BD9DFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A970D4E1-9554-4EFA-9104-A15A0BD9DFCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B7D98E-775F-4491-83B1-0F9F5DCF9079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B7D98E-775F-4491-83B1-0F9F5DCF9079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B7D98E-775F-4491-83B1-0F9F5DCF9079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B7D98E-775F-4491-83B1-0F9F5DCF9079}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
