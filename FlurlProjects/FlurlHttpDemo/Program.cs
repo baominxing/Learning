@@ -1,5 +1,6 @@
 ﻿using Flurl;
 using Flurl.Http;
+using Flurl.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -108,51 +109,108 @@ namespace FlurlHttpDemo
 
             //});
 
-            var url3 = "http://ems.handeaxle.com:8093/api/consume/data/history";
+            //var url3 = "http://ems.handeaxle.com:8093/api/consume/data/history";
+
+            //Task.Run(async () =>
+            //{
+            //    var list = new List<IEnumerable<dynamic>>();
+
+            //    var result = await url3.WithHeader("token", "15002ec8025f4c26b52e9bd47663f221").SetQueryParams(new
+            //    {
+            //        consume_depart = 19,
+            //        consume_sdate = DateTime.Now.AddDays(-11).ToString("yyyy-MM-dd"),
+            //        consume_edate = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"),
+            //    }
+            //    )
+            //    .GetAsync().ReceiveJson<JObject>();
+
+            //    Console.WriteLine(result);
+
+            //    var datalist = result.SelectTokens("data.list");
+
+            //    foreach (var item in datalist.Values())
+            //    {
+            //        Console.WriteLine(item);
+
+            //        var gmt_day = item?.Value<DateTime?>("gmt_day")?.ToString("yyyy-MM-dd") ?? "";
+
+            //        if (string.IsNullOrEmpty(gmt_day))
+            //        {
+            //            continue;
+            //        }
+
+            //        var depart_name = item?.Value<string>("depart_name") ?? "";
+            //        var value = item?.Value<string>("value") ?? "";
+            //        var total_cost = item?.Value<string>("total_cost") ?? "";
+            //        var elec = item?.Value<string>("elec") ?? "";
+            //        var elec_peak_amount = item?.Value<string>("elec_peak_amount") ?? "";
+            //        var elec_normal_amount = item?.Value<string>("elec_normal_amount") ?? "";
+            //        var elec_valley_amount = item?.Value<string>("elec_valley_amount") ?? "";
+            //        var compair = item?.Value<string>("compair") ?? "";
+            //        var water = item?.Value<string>("water") ?? "";
+            //        var gas = item?.Value<string>("gas") ?? "";
+            //        var rwater = item?.Value<string>("rwater") ?? "";
+
+            //        list.Add(new List<dynamic>() { gmt_day, depart_name, value, total_cost, elec, elec_peak_amount, elec_normal_amount, elec_valley_amount, compair, water, gas, rwater });
+            //    }
+            //});
+
+            var url4 = $@"http://localhost:8029/api/services/app/cutter/ListToolInventoryWarningDemoData";
 
             Task.Run(async () =>
             {
                 var list = new List<IEnumerable<dynamic>>();
 
-                var result = await url3.WithHeader("token", "15002ec8025f4c26b52e9bd47663f221").SetQueryParams(new
-                {
-                    consume_depart = 19,
-                    consume_sdate = DateTime.Now.AddDays(-11).ToString("yyyy-MM-dd"),
-                    consume_edate = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"),
-                }
-                )
-                .GetAsync().ReceiveJson<JObject>();
+                var result = await url4.PostJsonAsync(new { input = string.Empty }).ReceiveJson<JObject>();
 
                 Console.WriteLine(result);
 
-                var datalist = result.SelectTokens("data.list");
+                var datalist = result.SelectTokens("result.locationarticle");
 
                 foreach (var item in datalist.Values())
                 {
-                    Console.WriteLine(item);
-
-                    var gmt_day = item?.Value<DateTime?>("gmt_day")?.ToString("yyyy-MM-dd") ?? "";
-
-                    if (string.IsNullOrEmpty(gmt_day))
-                    {
-                        continue;
-                    }
-
-                    var depart_name = item?.Value<string>("depart_name") ?? "";
-                    var value = item?.Value<string>("value") ?? "";
-                    var total_cost = item?.Value<string>("total_cost") ?? "";
-                    var elec = item?.Value<string>("elec") ?? "";
-                    var elec_peak_amount = item?.Value<string>("elec_peak_amount") ?? "";
-                    var elec_normal_amount = item?.Value<string>("elec_normal_amount") ?? "";
-                    var elec_valley_amount = item?.Value<string>("elec_valley_amount") ?? "";
-                    var compair = item?.Value<string>("compair") ?? "";
-                    var water = item?.Value<string>("water") ?? "";
-                    var gas = item?.Value<string>("gas") ?? "";
-                    var rwater = item?.Value<string>("rwater") ?? "";
-
-                    list.Add(new List<dynamic>() { gmt_day, depart_name, value, total_cost, elec, elec_peak_amount, elec_normal_amount, elec_valley_amount, compair, water, gas, rwater });
                 }
             });
+
+            //var s = ListToolInventoryWarningDemoData(new { input = string.Empty });
+        }
+
+        public static dynamic ListToolInventoryWarningDemoData(dynamic input)
+        {
+            var str = "{ \"locationarticle\":" +
+              "[" +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}," +
+              "{\"articleNumber\":\"DR - 6X20XL48 - CA\",\"availableQuantity\":6,\"criticalQuantity\":0,\"currentQuantity\":6,\"idArticle\":1,\"maxQuantity\":10,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0},{\"articleNumber\":\"DR - 5.5X20XL48 - CA\",\"availableQuantity\":1,\"criticalQuantity\":0,\"currentQuantity\":1,\"idArticle\":2,\"maxQuantity\":1,\"reorderQuantity\":0,\"reservedQuantity\":0,\"warningQuantity\":0}" +
+              "]}";
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(str);
+        }
+
+        private class ToolInventoryDto
+        {
+            public List<licationarticle> locationarticle { get; set; }
+        }
+
+        public class licationarticle
+        {
+            public string articleNumber { get; set; }
+            public string availableQuantity { get; set; }
+            public string criticalQuantity { get; set; }
+            public string currentQuantity { get; set; }
+            public string idArticle { get; set; }
+            public string maxQuantity { get; set; }
+            public string reorderQuantity { get; set; }
+            public string reservedQuantity { get; set; }
+            public string warningQuantity { get; set; }
         }
     }
 

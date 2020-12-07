@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
@@ -18,6 +20,17 @@ namespace ReadRemoteFileViaImpersonate
         static readonly string filename = ConfigurationManager.AppSettings["filename"];
 
         static void Main(string[] args)
+        {
+            //远程读取excel文件
+            //Demonstration();
+
+            //远程读取txt文件
+            Demonstration2();
+
+            Console.ReadKey();
+        }
+
+        public static void Demonstration()
         {
             SharedDirectoryManager sharedDirectoryManager = new SharedDirectoryManager();
 
@@ -46,8 +59,96 @@ namespace ReadRemoteFileViaImpersonate
             {
                 Console.WriteLine($"尝试登录服务器失{username},{domain},{password}");
             }
+        }
 
-            Console.ReadKey();
+        public static void Demonstration2()
+        {
+            SharedDirectoryManager sharedDirectoryManager = new SharedDirectoryManager();
+
+            if (sharedDirectoryManager.ImpersonateValidUser(username, domain, password))
+            {
+                var filepath = Path.Combine(directory, filename);
+                var line = string.Empty;
+                var lines = new List<string>();
+
+                if (!File.Exists(filepath))
+                {
+                    Console.WriteLine($"读取报告{filepath}不存在服务器");
+                }
+                else
+                {
+                    Console.WriteLine($"读取报告{filepath}");
+
+                    using (var fs = new StreamReader(filepath))
+                    {
+                        while ((line = fs.ReadLine()) != null)
+                        {
+                            //Console.WriteLine(line);
+
+                            //筛选需要的行
+                            if (line.Contains("识别编号") || line.Contains("步骤") || line.Contains("纵向尺寸"))
+                            {
+                                lines.Add(line);
+                            }
+                        }
+                    }
+
+                    #region 步骤 1处理逻辑
+                    var lastStep1Index = lines.LastIndexOf("步骤 1");
+
+                    if (lastStep1Index == -1)
+                    {
+                        Console.WriteLine("未能找到步骤 1的记录");
+
+                        return;
+                    }
+
+                    var lastStep1Code = lines[lastStep1Index - 1];
+                    var lastStep1Value = lines[lastStep1Index + 1];
+
+                    Console.WriteLine(lastStep1Code + ":" + (lastStep1Index - 1));
+                    Console.WriteLine(lines[lastStep1Index] + ":" + lastStep1Index);
+                    Console.WriteLine(lastStep1Value + ":" + (lastStep1Index + 1));
+
+                    var value = lastStep1Value.Trim().Split(' ').ToList().LastOrDefault();
+                    #endregion
+
+                    #region 步骤 2处理逻辑
+                    var lastStep2Index = lines.LastIndexOf("步骤 2");
+
+                    if (lastStep2Index == -1)
+                    {
+                        Console.WriteLine("未能找到步骤 2的记录");
+
+                        return;
+                    }
+
+                    var lastStep2Code = lines[lastStep2Index - 1];
+                    var lastStep2Value = lines[lastStep2Index + 1];
+
+                    Console.WriteLine(lastStep2Code + ":" + (lastStep2Index - 1));
+                    Console.WriteLine(lines[lastStep2Index] + ":" + lastStep2Index);
+                    Console.WriteLine(lastStep2Value + ":" + (lastStep2Index + 1));
+
+
+                    //验证步骤2是步骤1的后续
+
+                    if (lastStep1Index != (lastStep2Index - 3) && lastStep1Code == lastStep2Code)
+                    {
+                        Console.WriteLine("步骤 2与步骤 1顺序不匹配");
+
+                        return;
+                    }
+                    #endregion
+
+                }
+
+                sharedDirectoryManager.UndoImpersonation();
+            }
+            else
+            {
+                Console.WriteLine($"尝试登录服务器失{username},{domain},{password}");
+            }
         }
     }
 
