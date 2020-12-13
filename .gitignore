@@ -272,3 +272,5 @@
 *.zip
 /CSharps/CacheHelper/bin/Debug
 /CSharps/CacheHelper/obj/Debug
+/CSharps/ILProjects/obj/Debug
+/CSharps/ILProjects/bin/Debug
