@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,18 @@ namespace LINQToXML
             #endregion
 
             #region Sample2 演示xml序列化成对象
-            Sample2.Demonstration();
+            //Sample2.Demonstration();
+            #endregion
+
+            #region Sample3 演示xml序列化成对象
+            Sample3.Demonstration();
             #endregion
 
             Console.ReadKey();
         }
     }
 
-    internal class Sample1
+    public class Sample1
     {
         internal static void Demonstration()
         {
@@ -157,6 +162,68 @@ namespace LINQToXML
 
             //互检人员编号清单
             public string RECHECKWORKS { get; set; }
+        }
+    }
+
+    public class Sample3
+    {
+        public static void Demonstration()
+        {
+            var templateXml = GetSoapRequestXmlTemplate("设备过程参数收集");
+
+            Console.WriteLine(templateXml);
+
+            var sendMessage = new SoapXmlCompiler()
+                      .AddKey("site", "")
+                      .AddKey("operation", "")
+                      //.AddKey("operationRevision", string.Empty)
+                      .AddKey("resource", "")
+                      .AddKey("dcGroup", "")
+                      //.AddKey("dcGroupRevision", string.Empty)
+                      .AddKey("user", "")
+                      .AddKey("dataList", "")
+                      .CompileString(templateXml);
+
+            Console.WriteLine(sendMessage);
+
+            templateXml = GetSoapRequestXmlTemplate("产品进站收数");
+
+            Console.WriteLine(templateXml);
+
+            sendMessage = new SoapXmlCompiler()
+                      .AddKey("site", "")
+                      .AddKey("operation", "")
+                      //.AddKey("operationRevision", string.Empty)
+                      .AddKey("resource", "")
+                      .AddKey("dcGroup", "")
+                      //.AddKey("dcGroupRevision", string.Empty)
+                      .AddKey("user", "")
+                      .AddKey("dataList", "")
+                      .CompileString(templateXml);
+
+            Console.WriteLine(sendMessage);
+        }
+
+        static string GetSoapRequestXmlTemplate(string interfaceName)
+        {
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("LINQToXML.SoapRequestXmlTemplates.xml");
+
+            var doc = new XmlDocument();
+
+            doc.Load(stream);
+
+            var cdata = doc.SelectNodes("/templates/template");
+
+            var e = XElement.Parse(doc.OuterXml).Descendants("template").Where(s => s.FirstAttribute.Value == interfaceName).FirstOrDefault();
+
+            var templateXml = e?.Value ?? string.Empty;
+
+            if (string.IsNullOrEmpty(templateXml))
+            {
+                throw new Exception($"{interfaceName}接口没有维护模板");
+            }
+
+            return templateXml;
         }
     }
 }

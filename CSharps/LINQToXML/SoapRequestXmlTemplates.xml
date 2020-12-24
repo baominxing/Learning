@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<templates>
+  <template key="设备过程参数收集">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollections.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:resourceDataCollection>
+         <resourceDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <resource>{{resource}}</resource>
+            <!--1 or more repetitions:-->
+            <dataList sxRepeat="item in dataList">
+               <name>{{item.name}}</name>
+               <value>{{item.value}}</value>
+            </dataList>
+         </resourceDataRequest>
+      </dat:resourceDataCollection>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品进站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocess.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:productArrivalBatch>
+         <workInProcessDataRequest>
+            <site>{{site}}</site>
+            <!--1 or more repetitions:-->
+             <dataList sxRepeat="item in dataList">
+               <operation>{{item.operation}}</operation>
+               <resource>{{item.resource}}</resource>
+               <sfc>{{item.sfc}}</sfc>
+            </dataList>
+         </workInProcessDataRequest>
+      </wor:productArrivalBatch>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品出站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:productOutboundBatch>
+         
+         <workInProcessDataRequest>
+            <site>{{site}}</site>
+            <!--1 or more repetitions:-->
+            <dataList sxRepeat="item in dataList">
+               <operation>{{item.operation}}</operation>
+               <resource>{{item.resource}}</resource>
+               <sfc>{{item.sfc}}</sfc>
+            </dataList>
+         </workInProcessDataRequest>
+      </wor:productOutboundBatch>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品过站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:productTransitBatch>
+         
+         <workInProcessDataRequest>
+             <site>{{site}}</site>
+            <!--1 or more repetitions:-->
+             <dataList sxRepeat="item in dataList">
+               <operation>{{item.operation}}</operation>
+               <resource>{{item.resource}}</resource>
+               <sfc>{{item.sfc}}</sfc>
+            </dataList>
+         </workInProcessDataRequest>
+      </wor:productTransitBatch>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品进站收数">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:productArrivalDataCollection>
+         <productDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <!--1 or more repetitions:-->
+             <dataList sxRepeat="item in dataList">
+               <sfc>{{item.sfc}}</sfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="subItem in item.subDataList">
+                  <name>{{subItem.name}}</name>
+                  <value>{{subItem.value}}</value>
+               </dataList>
+            </dataList>
+         </productDataRequest>
+      </dat:productArrivalDataCollection>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品收数出站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:productDataCollectionOutbound>
+         <productDataRequest>
+           <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <!--1 or more repetitions:-->
+             <dataList sxRepeat="item in dataList">
+               <sfc>{{item.sfc}}</sfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="subItem in item.subDataList">
+                  <name>{{subItem.name}}</name>
+                  <value>{{subItem.value}}</value>
+               </dataList>
+            </dataList>
+         </productDataRequest>
+      </dat:productDataCollectionOutbound>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品收数过站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:productDataCollectionTransit>
+         <productDataRequest>
+           <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <!--1 or more repetitions:-->
+             <dataList sxRepeat="item in dataList">
+               <sfc>{{item.sfc}}</sfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="subItem in item.subDataList">
+                  <name>{{subItem.name}}</name>
+                  <value>{{subItem.value}}</value>
+               </dataList>
+            </dataList>
+         </productDataRequest>
+      </dat:productDataCollectionTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="工作中心状态更新">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workcenters.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:updateWorkCenterStatus>
+         
+         <workCenterStatusRequest>
+           <site>{{site}}</site>
+            <!--1 or more repetitions:-->
+            <workCenterList sxRepeat="item in workCenterList">
+               <workCenter>{{item.workCenter}}</workCenter>
+               <resourceStatus>{{item.resourceStatus}}</resourceStatus>
+            </workCenterList>
+         </workCenterStatusRequest>
+      </wor:updateWorkCenterStatus>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="资源状态更新">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:res="http://resources.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <res:updateResourceStatus>
+         
+         <resourceStatusRequest>
+           <site>{{site}}</site>
+           <resource>{{resource}}</resource>
+           <resourceStatus>{{resourceStatus}}</resourceStatus>
+         </resourceStatusRequest>
+      </res:updateResourceStatus>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="产品进站解绑">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:productArrivalUnbind>
+         <workInProcessDataRequest>
+            <site>{{site}}</site>
+            <!--1 or more repetitions:-->
+            <dataList sxRepeat="item in dataList">
+               <operation>{{item.operation}}</operation>
+               <resource>{{item.resource}}</resource>
+               <sfc>{{item.sfc}}</sfc>
+            </dataList>
+         </workInProcessDataRequest>
+      </wor:productArrivalUnbind>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="获取条码进站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:getBarcodeArrival>
+         <getBarcodeArrivalRequest>
+            <site>{{site}}</site>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+         </getBarcodeArrivalRequest>
+      </wor:getBarcodeArrival>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="条码下达装配收数过站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:releaseBarcodeAssemblyDataCollectionTransit>
+         <releaseBarcodeDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <data>
+               <upperBoxSfc>{{upperBoxSfc}}</upperBoxSfc>
+               <lowerBoxSfc>{{lowerBoxSfc}}</lowerBoxSfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="item in dataList">
+                  <name>{{item.name}}</name>
+                  <value>{{item.value}}</value>
+               </dataList>
+            </data>
+         </releaseBarcodeDataRequest>
+      </dat:releaseBarcodeAssemblyDataCollectionTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="3线条码下达装配收数过站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:lineThreeReleaseBarcodeAssemblyDataCollectionTransit>
+         <releaseBarcodeDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <data>
+               <upperBoxSfc>{{upperBoxSfc}}</upperBoxSfc>
+               <lowerBoxSfc>{{lowerBoxSfc}}</lowerBoxSfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="item in dataList">
+                  <name>{{item.name}}</name>
+                  <value>{{item.value}}</value>
+               </dataList>
+            </data>
+         </releaseBarcodeDataRequest>
+      </dat:lineThreeReleaseBarcodeAssemblyDataCollectionTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成条码获取">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:getBoxAssemblyBarcode>
+         <workInProcessSfcDataRequest>
+            <site>{{site}}</site>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <sfc>{{sfc}}</sfc>
+         </workInProcessSfcDataRequest>
+      </wor:getBoxAssemblyBarcode>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成装框过站">
+    <![CDATA[
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:boxAssemblyFramedTransit>
+         <boxAssemblyFramedDataRequest>
+            <site>{{site}}</site>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <sfc>{{sfc}}</sfc>
+            <processLot>{{processLot}}</processLot>
+         </boxAssemblyFramedDataRequest>
+      </wor:boxAssemblyFramedTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成进站">
+    <![CDATA[
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:boxAssemblyArrival>
+         <workInProcessSfcDataRequest>
+            <site>{{site}}</site>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <sfc>{{sfc}}</sfc>
+         </workInProcessSfcDataRequest>
+      </wor:boxAssemblyArrival>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成出站">
+    <![CDATA[
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:boxAssemblyOutbound>
+         <workInProcessSfcDataRequest>
+            <site>{{site}}</site>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <sfc>{{sfc}}</sfc>
+         </workInProcessSfcDataRequest>
+      </wor:boxAssemblyOutbound>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成产品收数过站">
+    <![CDATA[
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:boxAssemblyDataCollectionTransit>
+         <boxAssemblyDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <data>
+               <sfc>{{sfc}}</sfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="item in dataList">
+                  <name>{{item.name}}</name>
+                  <value>{{item.value}}</value>
+               </dataList>
+            </data>
+         </boxAssemblyDataRequest>
+      </dat:boxAssemblyDataCollectionTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成校验过站">
+    <![CDATA[
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wor="http://workinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <wor:boxAssemblyCheckTransit>
+         
+         <releaseBarcodeDataRequest>
+            <site>{{site}}</site>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <upperBoxSfc>{{upperBoxSfc}}</upperBoxSfc>
+            <lowerBoxSfc>{{lowerBoxSfc}}</lowerBoxSfc>
+         </releaseBarcodeDataRequest>
+      </wor:boxAssemblyCheckTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成进站收数">
+    <![CDATA[
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:boxAssemblyArrivalDataCollection>
+         <boxAssemblyDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <data>
+               <sfc>{{sfc}}</sfc>
+               <!--1 or more repetitions:-->
+               <dataList sxRepeat="item in dataList">
+                  <name>{{item.name}}</name>
+                  <value>{{item.value}}</value>
+               </dataList>
+            </data>
+         </boxAssemblyDataRequest>
+      </dat:boxAssemblyArrivalDataCollection>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成校验收数出站">
+    <![CDATA[
+   <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:boxAssemblyCheckDataCollectionOutbound>
+        <releaseBarcodeDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <data>
+               <upperBoxSfc>{{upperBoxSfc}}</upperBoxSfc>
+               <lowerBoxSfc>{{lowerBoxSfc}}</lowerBoxSfc>
+               <!--1 or more repetitions:-->
+                 <dataList sxRepeat="item in dataList">
+                  <name>{{item.name}}</name>
+                  <value>{{item.value}}</value>
+               </dataList>
+            </data>
+         </releaseBarcodeDataRequest>
+      </dat:boxAssemblyCheckDataCollectionOutbound>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+  <template key="箱体总成校验收数过站">
+    <![CDATA[
+  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dat="http://datacollectionandworkinprocesses.ws.haojue.com/">
+   <soapenv:Header />
+   <soapenv:Body>
+      <dat:boxAssemblyCheckDataCollectionTransit>
+         <releaseBarcodeDataRequest>
+            <site>{{site}}</site>
+            <dcGroup>{{dcGroup}}</dcGroup>
+            <user>{{user}}</user>
+            <operation>{{operation}}</operation>
+            <resource>{{resource}}</resource>
+            <data>
+               <upperBoxSfc>{{upperBoxSfc}}</upperBoxSfc>
+               <lowerBoxSfc>{{lowerBoxSfc}}</lowerBoxSfc>
+               <!--1 or more repetitions:-->
+                 <dataList sxRepeat="item in dataList">
+                  <name>{{item.name}}</name>
+                  <value>{{item.value}}</value>
+               </dataList>
+            </data>
+         </releaseBarcodeDataRequest>
+      </dat:boxAssemblyCheckDataCollectionTransit>
+   </soapenv:Body>
+</soapenv:Envelope>
+    ]]>
+  </template>
+</templates>

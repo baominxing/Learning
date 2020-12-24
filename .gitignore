@@ -274,3 +274,7 @@
 /CSharps/CacheHelper/obj/Debug
 /CSharps/ILProjects/obj/Debug
 /CSharps/ILProjects/bin/Debug
+/.vs
+
+*.cache
+/CSharps/packages/CoreCLR-NCalc.2.2.92/lib
