@@ -1,14 +1,13 @@
 ﻿using Dapper;
 using DapperExtensions;
 using EntityFramework;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace ADO.NETs
@@ -38,7 +37,10 @@ namespace ADO.NETs
 
 
             //基于ADO.NET的工作单元模式
-            Sample5.Demonstration();
+            //Sample5.Demonstration();
+
+            //使用SMO复制一张现有的表，包括约束及索引信息
+            Sample6.Demonstration();
 
             Console.ReadKey();
         }
@@ -590,6 +592,50 @@ INSERT INTO [dbo].[StateInfos]
         {
             public SqlDbType Name { get; internal set; }
             public SqlDbType Id { get; internal set; }
+        }
+    }
+
+    public class Sample6
+    {
+        static string connectionString = "Data Source=.;Initial Catalog=BTLMaster;user id=sa;password=P@ssw0rd;MultipleActiveResultSets=True;Connect Timeout=120;persist security info=True;";
+        public static void Demonstration()
+        {
+            using (var conn = new SqlConnection(connectionString))
+            {
+                // 初始化一个连接
+                Server server = new Server(new ServerConnection(conn));
+                //得到数据库
+                var srcDb = server.Databases[conn.Database];
+                //得到表
+                Table table = srcDb.Tables["Alarms"];
+
+                //初始化Scripter 
+                Scripter scripter = new Scripter(server);
+
+                scripter.Options.Add(ScriptOption.DriAllConstraints);
+                scripter.Options.Add(ScriptOption.DriAllKeys);
+                scripter.Options.Add(ScriptOption.Default);
+                scripter.Options.Add(ScriptOption.ContinueScriptingOnError);
+                scripter.Options.Add(ScriptOption.ConvertUserDefinedDataTypesToBaseType);
+                scripter.Options.Add(ScriptOption.Indexes);
+
+                UrnCollection collection = new UrnCollection();
+
+                collection.Add(table.Urn);
+
+                var createTableSql = new StringBuilder();
+
+                var sqls = scripter.Script(collection);
+
+                foreach (var s in sqls)
+                {
+                    createTableSql.AppendLine(s.Replace("Alarms", "Alarms" + DateTime.Now.ToString("yyyyMMddHHmmss")));
+                }
+
+                srcDb.ExecuteNonQuery(createTableSql.ToString());
+
+                Console.WriteLine("创建完毕");
+            }
         }
     }
 }

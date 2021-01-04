@@ -4737,11 +4737,6 @@ namespace EntityFramework
  
     }
   
-    public partial class Server
-    {
- 
-    }
-  
     public partial class Set
     {
  
