@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ILProjects
 {
@@ -7,6 +8,18 @@ namespace ILProjects
     {
 
         static void Main(string[] args)
+        {
+            //Sample1.Demonstration();
+
+            Sample2.Demonstration();
+
+            Console.ReadKey();
+        }
+    }
+
+    public class Sample1
+    {
+        public static void Demonstration()
         {
             var p = "hello" + "world";
 
@@ -42,9 +55,53 @@ namespace ILProjects
                 Console.WriteLine(Person.r2);
             }
 
+            Run(ref i, out j);
 
+            var rs = i & j;
 
-            Console.ReadKey();
+            Task.Run(() => { Run2(); });
+        }
+
+        public static void Run(ref int p, out int p1)
+        {
+            p = 1;
+            p1 = 1;
+        }
+
+        public async static void Run2()
+        {
+            Console.WriteLine("I am in Run2");
+
+            await Task.Delay(1000);
+
+            Console.WriteLine("I delayed 1000ms");
+        }
+    }
+
+    public class Sample2
+    {
+        public static void Demonstration()
+        {
+            var foo = new Foo();
+            new Thread(()=> Foo.TrySomething("1")).Start();
+            new Thread(() => Foo.TrySomething("1")).Start();
+        }
+
+        class Foo
+        {
+            private int count = 0;
+            public static void TrySomething(string p)
+            {
+                //count++;
+
+                int localcount = 0;
+
+                localcount++;
+
+                Console.WriteLine(localcount);
+
+                var thread = Thread.CurrentThread;
+            }
         }
     }
 
@@ -55,6 +112,10 @@ namespace ILProjects
         public readonly int r = 2;
 
         public static readonly int r2 = 2;
+
+        public string x { get; set; }
+
+        public decimal y { get; set; }
 
         public Person()
         {
