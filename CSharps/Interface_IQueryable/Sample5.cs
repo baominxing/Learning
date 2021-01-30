@@ -1229,7 +1229,7 @@ namespace Interface_IQueryable.Sample5
             return "t" + (aliasCount++);
         }
 
-        private ProjectedColumns ProjectColumns(Expression expression, string newAlias, string existingAlias)
+        private ProjectedColumns ProjectColumns(Expression expression, string newAlias, string existingAlias, string alias)
         {
             return this.columnProjector.ProjectColumns(expression, newAlias, existingAlias);  
         }
@@ -1271,6 +1271,11 @@ namespace Interface_IQueryable.Sample5
                 new SelectExpression(resultType, alias, pc.Columns, projection.Source, where),
                 pc.Projector
                 );
+        }
+
+        private ProjectedColumns ProjectColumns(Expression projector, string alias, string v)
+        {
+            throw new NotImplementedException();
         }
 
         private Expression BindSelect(Type resultType, Expression source, LambdaExpression selector)
@@ -1649,28 +1654,28 @@ namespace Interface_IQueryable.Sample5
 
         protected override Expression VisitJoin(JoinExpression join)
         {
-            this.VisitSource(join.Left);
-            this.AppendNewLine(Indentation.Same);
-            switch (join.Join)
-            {
-                case JoinType.CrossJoin:
-                    sb.Append("CROSS JOIN ");
-                    break;
-                case JoinType.InnerJoin:
-                    sb.Append("INNER JOIN ");
-                    break;
-                case JoinType.CrossApply:
-                    sb.Append("CROSS APPLY ");
-                    break;
-            }
-            this.VisitSource(join.Right);
-            if (join.Condition != null)
-            {
-                this.AppendNewLine(Indentation.Inner);
-                sb.Append("ON ");
-                this.Visit(join.Condition);
-                this.AppendNewLine(Indentation.Outer);
-            }
+            //this.VisitSource(join.Left);
+            //this.AppendNewLine(Indentation.Same);
+            //switch (join.Join)
+            //{
+            //    case JoinType.CrossJoin:
+            //        sb.Append("CROSS JOIN ");
+            //        break;
+            //    case JoinType.InnerJoin:
+            //        sb.Append("INNER JOIN ");
+            //        break;
+            //    case JoinType.CrossApply:
+            //        sb.Append("CROSS APPLY ");
+            //        break;
+            //}
+            //this.VisitSource(join.Right);
+            //if (join.Condition != null)
+            //{
+            //    this.AppendNewLine(Indentation.Inner);
+            //    sb.Append("ON ");
+            //    this.Visit(join.Condition);
+            //    this.AppendNewLine(Indentation.Outer);
+            //}
             return join;
         }
 

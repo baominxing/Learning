@@ -11,3 +11,16 @@ D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\x64\liblept1753.dll
 D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\x64\libtesseract3052.dll
 D:\github\learning\CSharps\ImageProcessingProjects\bin\Debug\Tesseract.dll
 D:\github\learning\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csproj.CopyComplete
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\x86\liblept1753.dll
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\x86\libtesseract3052.dll
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\x64\liblept1753.dll
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\x64\libtesseract3052.dll
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\ImageProcessingProjects.exe.config
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\ImageProcessingProjects.exe
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\ImageProcessingProjects.pdb
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\bin\Debug\Tesseract.dll
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csprojAssemblyReference.cache
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csproj.CoreCompileInputs.cache
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.csproj.CopyComplete
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.exe
+E:\代码仓库\learning_dotnet\CSharps\ImageProcessingProjects\obj\Debug\ImageProcessingProjects.pdb
