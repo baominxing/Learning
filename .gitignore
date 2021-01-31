@@ -278,3 +278,9 @@
 
 *.cache
 /CSharps/packages/CoreCLR-NCalc.2.2.92/lib
+/CSharps/Thread_SynchronizationContext/bin/Debug
+/CSharps/Thread_SynchronizationContext/obj/Debug
+/CSharps/Thread_Semaphore/bin/Debug
+/CSharps/Thread_Semaphore/obj/Debug
+/CSharps/Task_AwaitAsync/bin/Debug
+/CSharps/Task_AwaitAsync/obj/Debug
