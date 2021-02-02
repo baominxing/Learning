@@ -284,3 +284,5 @@
 /CSharps/Thread_Semaphore/obj/Debug
 /CSharps/Task_AwaitAsync/bin/Debug
 /CSharps/Task_AwaitAsync/obj/Debug
+/CSharps/Thread_IAsyncResult/bin/Debug
+/CSharps/Thread_IAsyncResult/obj/Debug

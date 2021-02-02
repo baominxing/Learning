@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread_Semaphore", "Thread_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task_AwaitAsync", "Task_AwaitAsync\Task_AwaitAsync.csproj", "{ACE7BFB2-31FA-4BB2-9206-456217BEDF9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread_IAsyncResult", "Thread_IAsyncResult\Thread_IAsyncResult.csproj", "{F53CDF38-5DC0-4C15-994E-A5DE25945927}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{ACE7BFB2-31FA-4BB2-9206-456217BEDF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACE7BFB2-31FA-4BB2-9206-456217BEDF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACE7BFB2-31FA-4BB2-9206-456217BEDF9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F53CDF38-5DC0-4C15-994E-A5DE25945927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F53CDF38-5DC0-4C15-994E-A5DE25945927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F53CDF38-5DC0-4C15-994E-A5DE25945927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F53CDF38-5DC0-4C15-994E-A5DE25945927}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
