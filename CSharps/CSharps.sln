@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread_IAsyncResult", "Thre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread_Mutex", "Thread_Mutex\Thread_Mutex.csproj", "{49CBF155-2170-4F25-992F-0687B30B3E41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread_AsyncLocal", "Thread_AsyncLocal\Thread_AsyncLocal.csproj", "{AD3F7BFA-9D53-4C52-A062-F363E5D44AF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{49CBF155-2170-4F25-992F-0687B30B3E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49CBF155-2170-4F25-992F-0687B30B3E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49CBF155-2170-4F25-992F-0687B30B3E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD3F7BFA-9D53-4C52-A062-F363E5D44AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD3F7BFA-9D53-4C52-A062-F363E5D44AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD3F7BFA-9D53-4C52-A062-F363E5D44AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD3F7BFA-9D53-4C52-A062-F363E5D44AF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
