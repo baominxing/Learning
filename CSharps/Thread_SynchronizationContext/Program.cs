@@ -9,6 +9,9 @@ namespace Thread_SynchronizationContext
 {
     class Program
     {
+        [ThreadStatic]
+        AsyncLocal<string> _asyncLocalString = new AsyncLocal<string>();
+
         static void Main(string[] args)
         {
             SynchronizationContext synchronizationContext = new SynchronizationContext();

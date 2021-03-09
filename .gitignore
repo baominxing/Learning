@@ -286,3 +286,7 @@
 /CSharps/Task_AwaitAsync/obj/Debug
 /CSharps/Thread_IAsyncResult/bin/Debug
 /CSharps/Thread_IAsyncResult/obj/Debug
+/CSharps/Thread_Mutex/bin/Debug
+/CSharps/Thread_Mutex/obj/Debug
+/CSharps/Thread_AsyncLocal/bin/Debug
+/CSharps/Thread_AsyncLocal/obj/Debug
