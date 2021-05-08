@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelToPdf", "ExcelToPdf\Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPSProject", "WPSProject\WPSProject.csproj", "{FF1CCD50-0CFF-4D33-B0B5-E97C313B1CDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITextSharps", "ITextSharps\ITextSharps.csproj", "{787379AB-194A-43FE-9A0B-BE62C1F6C7C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FF1CCD50-0CFF-4D33-B0B5-E97C313B1CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF1CCD50-0CFF-4D33-B0B5-E97C313B1CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF1CCD50-0CFF-4D33-B0B5-E97C313B1CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{787379AB-194A-43FE-9A0B-BE62C1F6C7C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{787379AB-194A-43FE-9A0B-BE62C1F6C7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{787379AB-194A-43FE-9A0B-BE62C1F6C7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{787379AB-194A-43FE-9A0B-BE62C1F6C7C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

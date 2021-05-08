@@ -49,13 +49,13 @@ namespace Dappers
 
             //获取state repository
             var container = builder.Build();
-            var stateRepository = container.Resolve<IDapperRepository<TraceFlowSettings>>();
+            var stateRepository = container.Resolve<IDapperRepository<StateInfos>>();
 
             //获取state表值
 
             Console.WriteLine(stateRepository.GetList().Count());
 
-            Console.WriteLine(stateRepository.GetList(s => s.Id, Operator.Eq, 1));
+            var rs = stateRepository.FirstOrDefault(s => s.Id, Operator.Eq, 1);
 
             Console.WriteLine(stateRepository.GetList(s => s.Id, Operator.Eq, 1));
         }
@@ -160,15 +160,15 @@ namespace Dappers
                             return (Func<T, bool>)lambdaExpression.Compile();
                         });
 
-                        result = dbConnection.GetList<T>(Predicates.Field(expression, op, param)).Where(d);
+                        result = dbConnection.GetList<T>(Predicates.Field(expression, op, param)).Where(d).ToList();
                     }
                     else
                     {
-                        result = dbConnection.GetList<T>(Predicates.Field(expression, op, param));
+                        result = dbConnection.GetList<T>(Predicates.Field(expression, op, param)).ToList();
                     }
-
-                    return result;
                 }
+
+                return result;
             }
 
             public virtual T Get(object id)
