@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService20200325", "WebService20200325\WebService20200325.csproj", "{0000FBA1-0F77-4B68-81EB-2B5463B059E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp20210514", "ConsoleApp20210514\ConsoleApp20210514.csproj", "{B5B54497-BB05-4FAE-98A5-872A15B764B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0000FBA1-0F77-4B68-81EB-2B5463B059E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0000FBA1-0F77-4B68-81EB-2B5463B059E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0000FBA1-0F77-4B68-81EB-2B5463B059E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5B54497-BB05-4FAE-98A5-872A15B764B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B54497-BB05-4FAE-98A5-872A15B764B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B54497-BB05-4FAE-98A5-872A15B764B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B54497-BB05-4FAE-98A5-872A15B764B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
