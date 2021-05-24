@@ -18,7 +18,9 @@ namespace FlurlHttpDemo
             try
             {
                 //Flurl.Http的使用，NetworkJson转换成JObject对象后操作比较好
-                Sample1.Demonstration();
+                //Sample1.Demonstration();
+
+                Sample2.Demonstration();
             }
             catch (Exception ex)
             {
@@ -211,6 +213,27 @@ namespace FlurlHttpDemo
             public string reorderQuantity { get; set; }
             public string reservedQuantity { get; set; }
             public string warningQuantity { get; set; }
+        }
+    }
+
+    public class Sample2
+    {
+        public static void Demonstration()
+        {
+            var url = "http://192.168.1.21:4206/WimiWebService.asmx";
+            var ns = "http://tempuri.org/";
+            var soapXml = new StringBuilder();
+            var soapAction = $"{ns}IWebServiceAppService/ListDeviceSpindle";
+
+            soapXml.Append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+            soapXml.Append("<soapenv:Header/>");
+            soapXml.Append("<soapenv:Body/>");
+            soapXml.Append("</soapenv:Envelope>");
+
+            var resultObj = HttpHelper.DoPost($"{url}", "text/xml; charset=utf-8", Encoding.UTF8.GetBytes(soapXml.ToString()), string.Empty, string.Empty, string.Empty, string.Empty, soapAction);
+
+            Console.WriteLine($"调用 StartProcess 方法，返回结果 - {JsonConvert.SerializeObject(resultObj)}");
+
         }
     }
 
