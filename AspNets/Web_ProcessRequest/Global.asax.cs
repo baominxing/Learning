@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Web_ProcessRequest
 {
-    public class Global //: HttpApplication
+    public class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {
@@ -78,6 +80,16 @@ namespace Web_ProcessRequest
         void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             //在执行验证前发生，这是创建验证逻辑的起点
+
+            var claims = new List<Claim>();
+
+            claims.Add(new Claim(ClaimTypes.Name, "Fred"));
+
+            var identity = new ClaimsIdentity(claims, "MyClaimsLogin");
+
+            var principal = new ClaimsPrincipal(identity);
+
+            //HttpContext.Current.User = principal;
         }
 
         void Application_AuthorizeRequest(object sender, EventArgs e)

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Web_ProcessRequest.Controllers
 {
+    [Authorize]
     public class DefaultController : Controller
     {
         // GET: Default
