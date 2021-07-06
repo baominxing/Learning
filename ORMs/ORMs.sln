@@ -19,7 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dappers_20201019", "Dappers
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dappers_20210508", "Dapper_20210508\Dappers_20210508.csproj", "{C069BE8C-C142-4E06-86E2-B9E20658D6D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteCore", "SQLiteCore\SQLiteCore.csproj", "{D1C42235-845E-4FD3-88E5-577C7B7DDC44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQLiteCore", "SQLiteCore\SQLiteCore.csproj", "{D1C42235-845E-4FD3-88E5-577C7B7DDC44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotmim.Sync.Project", "Dotmim.Sync.Project\Dotmim.Sync.Project.csproj", "{E8C17372-4609-498A-897F-91A5E539100E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{D1C42235-845E-4FD3-88E5-577C7B7DDC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1C42235-845E-4FD3-88E5-577C7B7DDC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1C42235-845E-4FD3-88E5-577C7B7DDC44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C17372-4609-498A-897F-91A5E539100E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C17372-4609-498A-897F-91A5E539100E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C17372-4609-498A-897F-91A5E539100E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C17372-4609-498A-897F-91A5E539100E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
